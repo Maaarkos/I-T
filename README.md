@@ -1,3 +1,4 @@
 # Computer Networks
 
-- LOGS [Dział Logowania](LOGS/logowanie.md)
+- [Dział Logowania](LOGS/logowanie.md)
+- [VPNs](VPNs/RA/RA.md)
