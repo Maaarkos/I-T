@@ -17,7 +17,7 @@ Welcome to my personal IT documentation and troubleshooting notes.
 
 ## 🌐 Computer Networks
 - [Cisco - Logging and Debugging](COMPUTER-NETWORKS/cisco-logs-and-debug.md)
-- [VPN Configuration](COMPUTER-NETWORKS/vpn.md)
+- [VPN](COMPUTER-NETWORKS/VPNs/ipsec-ikev1-theory.md)
 - [Testing - Ports](COMPUTER-NETWORKS/ports.md)
 - [Hairpining](COMPUTER-NETWORKS/hairpining.md)
 

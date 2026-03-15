@@ -1,0 +1,226 @@
+Troche teorii
+
+IPSEc - to szkielet architektura, ktora korzysta z innych protokolow jak na przykład IKE czy ISAKMP. IPSec powstal w latach 90 czyli wtedy kiedy ja sie urodzilem :P Warto zwrocic uwage, ze ponad 85% firmowych tuneli korzysta z IPSEca ale w wersji IKEv2. IKEv1 to zaszlosc ale przedstawiam go rowniez tutaj
+
+bo jest na egzaminie CCNP SCOR i fajnie tez znac troche historii. 
+
+Zarowno IKE czy ISAKMP sa nazywane zamiennie protokol/framework. Jednak warto nazywac isakmp protokolem a dlaczego ? Poniewaz IANA nadala mu port 500 i taki owo protokol zobaczymy w wiresharku
+Framwork to pojecie czystko abstrakcyjne, logiczne, nie namacalne. To zbior zasad na papierze.  Skoro IANA nadala mu port to staje sie to namacalne to  fizyczne to staje sie to protokolem. 
+
+ISAKMP - okresla format wiadomosci. To taka koperta i zasady pocztowe. JAk ma wygladac naglowek wiadomosci, gdzie jest paylod itd.
+IKE - to on decyduje jak ma wygladac wymiana kluczy ( main mode czy aggresive mode ) - tutaj nie zobaczymy w wiresharku IKE [ nie do konca ale wyjasnie ]
+jest to tez protokol poniewaz mamy fizycznie propozycje wymiany kluczy KE, alogrytmow AES, SHA informacje o negocjacji: aggresive mode i main mode.  Jak wspomnielismy wczesniej ISAKMP to koperta wiec cos co jest ukryte w kopercie to nie bedzie tego widac dopoki do niej nie zaglodniejmy. Wiec tak zobaczymy to jesli sobie klikniemy na ten ISAKMP do srodka. Natomiast w nowszych wersjach wiresharka w przypadku nowszej wersji IKEv2, ktora dzis jest powszechnie uzywana, na tyle madry jest wireshark ze juz pokazuje normalnie IKE
+
+W IKEv1 mamy 2 fazy: IKEv1 faza 1 i IKEv1 faza 2. Zeby bylo ciekawiej w fazie 1
+
+Jak wczesniej wspomnialem mamy 2 tryby: main-mode i aggressive mode. W IKEv2 nie mamy tego na szczescie
+
+Main mode: peery wymieniaja lacznie 6 wiadomosci w 3 rundach. Ten tryb pozwala ochronic tozsamosc peerow. Nie zaleznie czy uzyjemy pre-shared key czy moze certyfiktow. Uzywamy  do VPN S2S
+
+Agressive mode - sklad sie z wymiany 3 pakietow. Nie chroni tozsamosci chyba, ze uzyjemy certyfikatow. Wiec pytanie brzmi po co wogole stworzono taki twor. Glownie dla VPN RA
+
+Otoz przy VPN RA czesto gesto mamy zmienne adresy. Przy main moode aby stworzyc PSK uzywa sie stalych adresow wiec robi sie problem. Tunel po prostu nie wstaje. Aby wlasnie to obejsc wymyslna agressive mode + certyfikaty.
+
+Cisco z defaoltu czy to agressive mode czy to main mode ustawia PSK aby aby bylo latwiej i dzialalo. TO juz pozniej jest w kwestii admina aby zmienic na certyfikaty w przypadku VPNA RA.
+
+Reasumujac ! Dla S2S uzywamy main mode z PSK lub certem a dla RA uzywamy agressive + certy abyh rozwiazac problem ze zmiennym IP
+
+W przeszlosci hakerzy byli szczesliwi gdyz admini aby zaoszczedzic jechali na agressive mode przy psk na RA lub nawet S2S kiedy to mieli oddzialy z LTE
+
+W przeszłości hakerzy zacierali ręce (i łamali hasła offline w domowym zaciszu), ponieważ admini masowo używali Aggressive Mode z PSK. Robili to, aby zaoszczędzić na wykupywaniu stałych adresów IP od operatorów. Ten "dziurawy" setup był plagą nie tylko w VPN RA, ale nawet w tunelach S2S, gdy małe oddziały były podpinane do centrali przez tanie łącza ze zmiennym IP (np. Neostrada czy modemy LTE).
+
+Graf wymiany 6 pakietow [ narysuj ruterki R1 initatior i R responder ] 
+
+Pakiety 1 i 2 [ runda 1 ]
+
+Routerek initiatior wysyla swoja propozycje SA proposal. Routerek B mowi pasuje mi. 
+Co jest przesylne: 
+
+- hash [ np. SHA-256 ]
+- authentication [ psk lub certy ]
+- Grupa DH [ grupa diffiego hellmana, np. DH 14 ]
+- Lifetime [ jak dlugo tunel ma zyc, domyslnie 86400 sekund ]
+- Encryption [ np. AES-256 ]
+
+Zeby nie uczyc sie tego na pamiec to lepiej zapamiec "HAGLE"
+
+Pakiety 3 i 4 [ runda 2 ] "Magia Matematyki" (Diffie-Hellman)
+
+To jest absolutne serce IPsec. Skoro routery ustaliły, że użyją szyfrowania AES, to skąd wezmą do niego klucz (hasło)? Nie mogą go po prostu przesłać przez internet, bo haker go podsłucha!
+Wkracza algorytm Diffie-Hellmana (DH). Routery wymieniają się jawnym tekstem "półproduktami" matematycznymi. Dzięki magii matematyki (i liczbom pierwszym), oba routery wyliczają u siebie ten sam, potężny klucz główny. Haker, który podsłuchał pakiety 3 i 4, ma tylko bezużyteczne śmieci – nie potrafi z nich złożyć ostatecznego klucza.
+
+Pakiety 5 i 6 [ runda 3 ] 
+
+Od tego momentu wszystko jest szyfrowane kluczem wyliczonym z poprzedniej rundy. Teraz routerki w pelnej tajemnicy wysylaja sobie dowody tozsamowsci a mianowcie swoje IP oraz hash z PSK. Z tego robie hash i porownuja sobie czy sie zgadza. Jesli tak to uwierzytelnienie sie zgadza. 
+
+A moze zapytacie a co jesli haker po drodze bedzie chcial generowac klucz DH z initiatiorem ?
+
+Tak moze to zrobic i nawet jesli mu sie to uda to w rundzie 3 zostanie uwalony poniewaz musialby dodatkowo ustawic sobie takie samo IP publiczne co jest
+mozliwe ale o tym pozniej wiec zalozmy, ze je ma i dodatkowo klucz PSK czyli zalozmy podsluchac rozmowe telefoniczna dwoch adminow aby zdobyc klucz PSK. Wtedy hash z psh + ip i z tego hash laczny zgadzal by sie wiec router A myslalby, ze gada z routerem B. Jest to praktycznie nie wykonalne. 
+
+Co z tym podrobieniem adresu publicznego. Mozemy sobie wpisac adres publiczny kogos kto za niego zaplacil ale co nam to da jesli osoba tak naprawde placi
+za routing do tego adresu a nie za sam adres. 
+
+
+Jeśli haker siedzi w piwnicy, podmieni sobie źródłowy adres IP na adres Twojej centrali i wyśle pakiet do Twojego oddziału, to oddział wyśle odpowiedź... do prawdziwej centrali! Haker w piwnicy nigdy tej odpowiedzi nie zobaczy. Pakiet zachowa się jak bumerang, który wraca do prawowitego właściciela.
+
+Więc po co haker to robi?
+
+Haker wysyła milion pakietów startowych ze sfałszowanym IP. Twój router poci się, liczy klucze DH, wysyła odpowiedzi w kosmos (do prawdziwych właścicieli IP), a haker w piwnicy pije kawę i patrzy, jak Twoja sieć firmowa umiera z przeciążenia. To klasyczny atak DoS (Denial of Service). Do tego spoofing nadaje się idealnie. Ale dziala to tylko w przypadku agressive mode poniewaz router nie zastanawia sie kto jest po drugiej stronie ale odrazu liczy DH. W main mode mamy cos takiego jak ciasteczka. Skoro routing nie dziala jak powinien to nie beda zgadzaly sie ciasteczka. Jesli Haker wlaczy atak na router B ze swoim wlasnym ciasteczkiem. Router B wygeneruje swoje wlasne i te 2 ciasteczka gdzie wysle ? Do routera A wiec haker nie bedzie mial 2 i nawet nie uruchomi sie funkcja DH. 
+
+
+Co jeśli haker jednak chce zestawić ten tunel i podsłuchać pakiety 5 i 6? Wtedy nie może siedzieć w losowej piwnicy. Musi być fizycznie lub logicznie na trasie przesyłu pakietów.
+
+
+Z życia wzięte: Haker włamuje się na router operatora (ISP), przez którego przechodzi Twój ruch. Albo siedzi w tej samej sieci LAN co Twój router (np. w hotelu) i robi tzw. ARP Spoofing. Wtedy pakiety fizycznie przez niego przechodzą. On je łapie w locie, modyfikuje i puszcza dalej. Kiedy odpowiedź wraca, znów przechodzi przez jego ręce.
+Gruba kradzież (BGP Hijacking): Najwięksi hakerzy (często opłacani przez rządy) włamują się do głównych routerów internetowych i ogłaszają fałszywe trasy BGP: "Hej internecie, od dzisiaj to ja jestem właścicielem tego publicznego IP!". Wtedy cały ruch internetowy skręca do nich.
+
+Statystyka i emocje: Kiedyś internet był dzikim zachodem i każdy mógł wysłać pakiet z dowolnym IP. Dzisiaj dobrzy operatorzy (ISP) stosują mechanizm o nazwie uRPF (Unicast Reverse Path Forwarding).
+Działa to jak bramkarz w klubie. Kiedy pakiet od klienta wchodzi do sieci operatora, router ISP patrzy na adres źródłowy i myśli: "Zaraz, zaraz. Ten klient wykupił u mnie adres 80.x.x.x, a wysyła mi pakiet z adresem źródłowym 8.8.8.8. To oszust!" – i zrzuca pakiet do kosza (tzw. BCP38). Niestety, wciąż około 25% operatorów na świecie tego nie wdraża, stąd ataki DDoS mają się świetnie.
+
+Podsumowujac ! 
+
+Hash robi tak naprawdę dwie różne rzeczy:
+
+Integralność (Plomba): Dokleja się do każdego pakietu, żeby sprawdzić, czy haker po drodze nie zmienił w nim choćby jednego bita (np. nie podmienił propozycji szyfrowania).
+Uwierzytelnienie (Dowód): W pakietach 5 i 6 faktycznie bierze PSK, adresy IP oraz klucze DH, wrzuca to wszystko do matematycznego blendera (Hasha) i wysyła ten "koktajl" na drugą stronę. Druga strona robi to samo i sprawdza, czy koktajle smakują tak samo.
+
+Klucz z DH posluzy do wynegocjowania fazy 2 inaczej quick mode. Do szyfrowania samych danych w praktyce mamy wlaczona funkcje PFS [ perfect forward secrecy ] czyli nie bierzemy pod uwage wogole smieci z fazy 1 a generujmy nowy DH i szyfrujemy tym dane. 
+
+Lifatime fajnie jak jest taki sam po obu stronach i tak mowia ksiazki jednak jesli jest inny to router bierze mniejszy i sie dostosowywuje. 
+
+Jeszcze dodajac to skad routery wiedza w jakim trybie gadac agressive czy main mode. 
+To wynika ze struktury pierwszego pakietu. Moze byc W nagłówku ISAKMP ustawia flagę Exchange Type: Identity Protection (Main Mode) [2]. i jesl drugi router jest skonfigurowany w tym trybie to zaczna gadac.
+
+W fazie 2
+
+Faza 1 jest lekka i dwukierunkowa natomiast faza 2 ma dwa jednokierunkowe tunele dla jednej sieci. Jeden inbound a drugi outboound. Jesli mamy
+na przyklad 3 sieci to SA tuneli bedzie az 6. 
+
+Dlaczego wogole tak zrobiony iz podzielono na inbound i outbound. Faza 2 to kobyla wiec stwierdzono ze aby poprawic wydajnosc lepiej
+bedzie rozdzielic pobieranie i wysylanie. Rowniez odesperowanie pozwala lepiej to wszystko poskladac i lepiej przetwarzac przez chipy ASIC. Kazdy
+tunel ma wlasne liczniki, klucz szyfrujacy itd. Majac bardzo duzo na przyklad vlanow robi sie gigantyczna ilosc SA. Dla kazdego podsieci tworzymy ACLki
+Rozwiazaniem na to jest zsumaryzowanie trasy. 
+
+Dodatkowo dla kazdego tunelu jest wymyslny unikalny parametr SPI, ktory jest przesylna jawnie. To 32 bitowy numer doklejany do naglowka pakietu. 
+To odbiorca wymysla ten numer aby pozniej latwo moznabylo identyfikowac tunele. Na przyklad wyobrazmy sobie te 3 podsieci. Robimy PFS i dla kazdej z nich mamy osobne DH i/lub AES. Dzieki temu Router B odbiorca moze latwo zidentyfikowac do ktorej szufladki z AES moze siegnac. Oczywiscie bez PFS tez mozemy zonglowac szyfrowaniem. W rzeczywistosci On bierze ten główny materiał DH z Fazy 1, dorzuca do niego trochę nowych, losowych śmieci (tzw. Nonces) i z tego miksu wylicza unikalny klucz AES dla tunelu 1 i unikalny klucz AES dla tunelu 2. Ale "rdzeń" matematyczny pozostaje ten sam (z Fazy 1).
+
+Technicznie możesz zrobić z routera taki cyrk i żonglować 15 różnymi szyframi i grupami DH dla 15 różnych podsieci.
+Ale wiesz, co się wtedy dzieje w prawdziwym życiu?
+O 2:00 w nocy pada tunel dla jednego działu. Wchodzisz na router, wpisujesz show crypto ipsec sa, widzisz 30 różnych tuneli, każdy z innym szyfrem, innym DH i innym czasem życia (Lifetime). Próbujesz znaleźć błąd (tzw. mismatch w konfiguracji po drugiej stronie) i po 10 minutach masz ochotę rzucić wypowiedzeniem.
+
+
+Statystyka: Dlatego 99% korporacji stosuje zasadę KISS (Keep It Simple, Stupid). Ustalają jeden, globalny, mocny standard dla całej firmy (np. wszędzie Faza 2 to AES-256 + SHA-256 + PFS DH 14) i stosują go do wszystkich podsieci bez wyjątku. Procesory są dziś na tyle mocne, że nie trzeba już oszczędzać na szyfrowaniu magazynu.
+
+A co gdybysmy mieli 1000 aktywnych uzytkownikow przez VPN RA ? 
+
+Haha to dostaejmy 2000 SA. Wez tu znajdz w tym gaszczu cos XD. Jak to wygldalo dawniej:
+
+Filtrowanie po IP użytkownika: Zamiast wyświetlać wszystko, wpisywałeś: show crypto ipsec sa peer 83.12.34.56 (gdzie to było publiczne IP domowego internetu pracownika, który zgłaszał problem).
+Filtrowanie po wewnętrznym IP: Jeśli pracownik dostał z firmowej puli adres 10.0.0.50, szukałeś po tym adresie wewnątrz tunelu.
+Narzędzia GUI: W dużych środowiskach nikt nie robił tego z palca w CLI. Używano programów takich jak Cisco ASDM (dla firewalli ASA), które miały zakładkę "Monitoring" z wyszukiwarką aktywnych sesji VPN.
+
+Najgorsze było to, że w starym IPsec (IKEv1) każdy z tych 1000 użytkowników co jakiś czas (np. co godzinę) musiał odnowić swoje klucze (tzw. Rekey). Jeśli 500 użytkowników połączyło się rano o 8:00, to o 9:00 procesor koncentratora dostawał nagle 500 jednoczesnych żądań o przeliczenie ciężkiej matematyki Diffie-Hellmana. Urządzenia często po prostu "klękały" z przeciążenia (tzw. Rekey Storm).
+
+Rozwiazaniem na to jest nowy IKEv2 i anyconnect, ktory uzywa 443 i jest lekki. 
+
+NO dobrze jak wyglada w krokach proces tworzenia fazy 2 ?
+
+Quick mode sklada sie tak naprawde z wymiany 3 pakietow. Sa one zaszyfrowane kluczem z fazy 1.
+
+1. Transform Set
+
+Wybieramy ciezarowke i pancerz dla kazdego sieci.
+
+- Protokol: ESP czy AH. AH nic nie szyfruje i w praktyce wszyscy leca na ESP
+
+- szyfr dla danych: Okej, do ochrony negocjacji w Fazie 1 użyliśmy AES-128, ale dane księgowości są super tajne, więc w Fazie 2 użyjmy mocniejszego AES-256"
+
+- Do każdego pakietu z plikiem dokleimy pieczęć SHA, żeby haker nie zmienił w locie kwoty na fakturze".
+
+2. To jest absolutnie najważniejszy punkt Fazy 2.w żargonie IPsec nazywa się Proxy IDs lub Traffic Selectors. Routery muszą ustalić, czyj ruch w ogóle ma prawo wejść do tunelu. W Cisco robi się to za pomocą list dostępu (Access Control Lists - ACL).
+Router A mówi: "Proponuję wpuścić do tunelu ruch z mojej sieci 192.168.1.0/24 do Twojej sieci 10.0.0.0/24".
+Router B musi to potwierdzić i mieć u siebie lustrzane odbicie tej reguły.
+
+Dzisiaj juz bardziej stosujemy Route-Based VPN zamiast Policy Based znane jako interfejsy VTI - virtual tunnel interface. Dziala to zarowno dla IKEv1 i IKEv2. Zamiast pisac skomplikowane ACLki wypychamy wszystko zwyklym routingiem. 
+A jak wpychasz tam ruch? Zwykłym routingiem! Wpisujesz komendę:
+ip route 10.0.0.0 255.255.255.0 Tunnel 0
+Router myśli: "Aha, wszystko co leci do sieci 10.0.0.0, mam wrzucić do rury o nazwie Tunnel 0". A interfejs Tunnel 0 automatycznie to łapie, szyfruje przez ESP i wysyła w świat.
+
+Zalozmy, ze chcemy dodac jedna podsiec na przyklad dzial ksiegowosci z nowa adresacja 10.1.3.0/24. W przypadku podejscia z ACLkami musimy skonfigurowac to u siebie i lustrzane odbicie. Jesli zrobicie literowke to zrywa sie caly tunel i Reszta firmy traci połączenie.
+
+Każdy tunel IPsec w Fazie 2 MUSI wynegocjować, jaki ruch będzie przez niego leciał. Różnica polega na tym, co routery sobie tam wysyłają.
+
+Szczegół:
+
+W klasycznych ACL-kach (Policy-Based): Router A mówi: "Hej, w kroku 2 proponuję wpuścić ruch z 10.1.1.0 do 10.2.2.0". Router B musi powiedzieć: "Zgadzam się, mam dokładnie taką samą regułę". Jeśli dodasz nową sieć, musisz zmienić ACL-kę, a routery muszą od nowa wynegocjować nową Fazę 2 dla tej nowej sieci.
+W VTI (Route-Based): Programiści Cisco zrobili genialny trik. Kiedy konfigurujesz VTI, router w ogóle nie patrzy na Twoje podsieci. W kroku 2 Fazy 2 router A automatycznie mówi: "Hej, proponuję wpuścić ruch od 0.0.0.0 (czyli wszystko) do 0.0.0.0 (czyli wszędzie)". Router B mówi: "Zgadzam się!".
+
+Efekt: Faza 2 negocjuje się tylko raz jako jedna, gigantyczna, otwarta rura dla całego internetu. A to, co faktycznie do niej wpadnie, zależy już tylko od Twojej tablicy routingu (komendy ip route). Dlatego jak dodajesz nową sieć w routingu, tunel nawet nie mrugnie – on już dawno wynegocjował przepuszczanie "wszystkiego".
+
+Dodatkowym atutem jest mozliwosc przesylania multicastow przy rozwiazaniu Routed-based. Wczesniej stosowano tunele GRE aby rozwiazac ten problem. 
+
+Czemu ACL-ki nie potrafią szyfrować Multicastu? Wina programistów?
+
+Krótka odpowiedź: Tak, to wina "programistów", ale nie tych z Cisco, tylko tych z lat 90., którzy pisali oryginalne standardy internetowe (dokumenty RFC dla IPsec).
+
+
+Ogół (Problem z designem):
+Kiedy w latach 90. wymyślano IPsec, myślano o nim jako o "kablach punkt-punkt" dla wojska i korporacji. IPsec został zaprojektowany wyłącznie dla ruchu Unicast (czyli od jednego konkretnego IP do drugiego konkretnego IP).
+Multicast (np. pakiety OSPF na adres 224.0.0.5) to ruch typu "jeden do wielu" (krzyk w tłumie). Klasyczny IPsec po prostu nie ma w swoim kodzie mechanizmu, żeby ten krzyk obsłużyć i zaszyfrować.
+
+
+Szczegół (Dlaczego VTI to potrafi?):
+Żeby protokół routingu (np. OSPF) mógł wysłać pakiet multicastowy, potrzebuje fizycznego lub logicznego interfejsu (takiego z adresem IP, stanem up/down, jak zwykła karta sieciowa).
+
+
+Klasyczna ACL-ka (Crypto Map) nie jest interfejsem. To tylko niewidzialny filtr zawieszony na fizycznym porcie routera. OSPF nie potrafi "podpiąć się" pod ACL-kę.
+VTI (Virtual Tunnel Interface) to pełnoprawny, wirtualny interfejs w systemie routera (np. Tunnel 0). OSPF patrzy na niego i myśli: "O, to jest normalna karta sieciowa, mogę tu wysyłać moje multicastowe pakiety Hello!". VTI łapie ten multicast, pakuje go w zwykły pakiet Unicastowy (enkapsulacja), szyfruje przez ESP i wysyła na drugą stronę.
+
+3. Opcjonalnie: PFS (Perfect Forward Secrecy)
+
+A teraz o co chodzi z tym AH i ESP:
+
+AH [ protocol 51 ] -> zapewnia integralnosc, uwierzytelnienie ale brak szyfrowania. Nie nawidzi sie z natem bo robi hash z calego pakietu lacznie z naglowkiem IP co przy NATcie robi sie problem. Dzisiaj eksponat z muzeum
+
+ESP [ protocol 50 ] -> dodatkowo szyfrowanie hasuje tylko srodek wiec nie ma problemu z NATem jesli chodzi o integralnosc. Jest problem z natem ale jesli chodzi o inna rzecz ale o tym pozniej. 99% uzywa dzis ESP
+
+Pamietaj ! niezaleznie czy IKEv1 czy IKEv2 to wystepuja tutaj protokoly ESP i AH. Ktos musi odwalic brudna robote. IKev1 i IKEv2.  IKEv1 i IKEv2 to protokoły, które tylko "gadają". Ustalają hasła, sprawdzają certyfikaty i wymieniają klucze. Kiedy skończą swoją robotę, idą na kawę. Same z siebie nie potrafią zaszyfrować ani jednego bajta Twoich danych!
+Ktoś musi odwalić czarną robotę i fizycznie szyfrować maile. I tym kimś jest właśnie ESP.
+
+Teraz przechodzimy do kolejnego tworu czym jest transport mode i tunnel mode czyli jak spakowac nasze dane. 
+
+1. Transport Mode tryb oszczedny. ESP wyciąga z koperty samą "kartkę z tekstem" (dane), szyfruje ją, po czym wkłada z powrotem do TEJ SAMEJ, oryginalnej koperty Prawie nigdy nie uzywamy tego w S2S poniewaz w naglowkach mamy prywatna adresacje, ktora nie przejdzie przez neta. Mozemy to rozwiazanie zastosowac do DMVPN albo GRE over IPSEc. 
+
+Rysunek z ksiazki:
+
+2. Tunel mode dajemy dodatkowy naglowek w postaci publikow i reszta jest szyfrowana wiec rozwiazujemy problem. 99% uzywa sie wlasnie tunnel mode. 
+
+Rysunek z ksiazki:
+
+Mozemy sobie zadac pytanie ale zaraz dlaczego bierzemy pod uwage jakies prywatne adresy w naglowkach ? skoro przeciez juz zrobilismy tunel z fazy 1 ?
+Otoz te tunele nie dzialaja tak jak nas ucza, ze jeden jest w drugim. Dzialaja niezalenie i jeden robi cos dla drugiego. 
+
+Tryb tunelowy ma jedna wade a mianowicie doklada dodatkowe naglowki [ duzo wagi do pakietu ]. 
+- NOwy naglowek IP to 20 bajtow
+- naglowki i trailery ESP to kolejne kilkadzisieat bajtow.
+
+Jesli wiec komp standardowo wysyla 1500 bajtow a router doloz nowa koperte z trybu tunelowego, pakiet puchnie do np. 1560 bajtow. Karta sieciowa operatora mówi: "O nie, mój limit to 1500. Tnę ten pakiet na dwa kawałki!" (tzw. fragmentacja).
+Fragmentacja w IPsec to śmierć wydajności. Procesor routera płonie próbując to posklejać, a połowa stron WWW przestaje się ładować.
+
+Pro-tip do dokumentacji: Dlatego każdy szanujący się inżynier, konfigurując IPsec w trybie Tunelowym, wpisuje na interfejsie magiczną komendę: ip tcp adjust-mss 1360. To mówi komputerom: "Hej, wysyłajcie trochę mniejsze paczki, bo muszę mieć miejsce, żeby dopakować je w te moje grube, szyfrowane koperty".
+
+Niby routery maja mechanizm, ktory zmniejsza tez z automatu MTU ale warto to wklepac mimo wszystko z palca 
+interface Tunnel 0
+ ip mtu 1400
+ ip tcp adjust-mss 1360
+ 
+Wiecej o MTU tutaj i MSS tutaj:
+
+Ustawiajacy MTU dla interfejsu tunelowe w przypadku metody Route-Based sprawa jest prosta bo ustawiamy na interfejsie tunelowym.
+Natomiast w przypadku Policy-based ustawiamy MTU na interfejsie od strony sieci prywatnej
+
+Warto tez wspomniec, ze zarowno ESP i AH to protokoloy L3 wiec robi sie problem w przypadku urzadzeniem za Patem. Rozwiazaniem na to jest funkcja pass-through. Mniej wiecej polega to na zaciganiu numeru SPI do warstwy 4.
+
+Lepsza funkcja jest NAT-T i polega to na tym, ze VPN-peers gdy wykryja iz urzadzenia sa za Natem dokladaja port 4500 aby z enkapsulowac pakiet.
+
