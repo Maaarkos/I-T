@@ -1,5 +1,7 @@
 # 🧅 The OSI Model & Encapsulation (The Envelope Theory)
 
+It is crucial to understand one thing right from the start: **The OSI model does not dictate what goes first or last on the wire. The OSI model defines who is responsible for what.** 
+
 Before a packet hits the wire, it must go through the "assembly line" in the operating system. Each layer attaches its own piece of information (headers). Let's break it down to the absolute essentials.
 
 ### 📊 The OSI Model (Practical View)
@@ -53,5 +55,17 @@ Therefore, on network diagrams and in Wireshark, the packet looks like this:
 +-------------+-------------+-------------+-----------------+-------------+
 </pre>
 
-> **💡 Engineering Note:** 
-> Why is the Trailer (The Seal) at the very end? Because the network card calculates its mathematical value "on the fly" as it transmits the packet. The final result is only ready to be attached after the very last bit of data has left the router!
+---
+
+### ⚙️ Deep Dive: How the Network Card works (FCS)
+
+The **FCS (Frame Check Sequence)** is a 4-byte checksum. It is the result of a complex mathematical equation (CRC) that checks if the electrical impulses on the cable were distorted.
+
+The network card doesn't wait at all! When it receives a packet, it immediately starts sending it onto the cable, bit by bit. At the same time, in a fraction of a second, its integrated circuit adds these bits to the mathematical equation "on the fly".
+
+When the card sends the very last bit of your data (Layer 7), the mathematical equation is ready. The card simply "spits out" this ready result as the final 4 bytes (The Trailer). 
+The receiver does the exact same thing—calculates on the fly, and at the end, compares its result with your Trailer. Brilliant in its simplicity!
+
+> **💡 Summary: Header vs. Trailer**
+> *   **Header:** Contains instructions on *"where this should go and how to read it"*. It must be at the front so the receiver knows what to do with it before reading the rest.
+> *   **Trailer:** Contains mathematical summaries (FCS, Hash) and fillers (Padding). It is at the end because it is calculated dynamically "on the fly" as the packet is already leaving the device.
