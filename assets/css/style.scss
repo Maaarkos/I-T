@@ -5,3 +5,13 @@
 .inner {
   max-width: 1200px !important;
 }
+
+/* --- Lepsza czytelność tekstu --- */
+p, li {
+  line-height: 1.8 !important;       /* Zwiększa odstęp między linijkami */
+  margin-bottom: 16px !important;    /* Zwiększa odstęp między akapitami */
+}
+
+ul, ol {
+  margin-left: 25px !important;      /* Robi większe, wyraźniejsze wcięcia dla list */
+}
