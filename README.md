@@ -18,6 +18,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 ## 🌐 Computer Networks
 - [OSI Model & Encapsulation](COMPUTER-NETWORKS/osi-model-and-encapsulation.md)
 - [Cisco - Logging and Debugging](COMPUTER-NETWORKS/cisco-logs-and-debug.md)
+- [MTU vs MSS](COMPUTER-NETWORKS/mtu-mss.md)
 - [Testing - Ports](COMPUTER-NETWORKS/ports.md)
 - [Hairpining](COMPUTER-NETWORKS/hairpining.md)
 
