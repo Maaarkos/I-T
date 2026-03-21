@@ -27,7 +27,9 @@ By default, FTDs have TCP MSS adjustment enabled. This means that when they see 
 To prove this theory, I ran some tests. I initiated an `iperf` session from Computer B (IP: `192.168.99.10`). In Wireshark running on Computer B, we can clearly see the MSS value we are trying to negotiate:
 
 <div align="center">
-  <img src="IMAGES/Transmission_comp_A.png" style="max-width: none; width: 1200px;">
+  <a href="IMAGES/Transmission_comp_A.png" target="_blank">
+    <img src="IMAGES/Transmission_comp_A.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
 </div> 
 
 As seen in the capture, Computer B tries to negotiate an MSS of **1460**, but receives a SYN-ACK with an MSS of **1380**. 
