@@ -13,7 +13,7 @@
 
 # 📚 My IT Knowledge Base
 
-Welcome to my personal IT documentation and troubleshooting notes. In this Knowledge Base I focus on Cisco Devices
+Welcome to my personal IT documentation and troubleshooting notes. In this Knowledge Base I focus on Cisco Devices.
 
 ## 🌐 Computer Networks
 - [OSI Model & Encapsulation](COMPUTER-NETWORKS/osi-model-and-encapsulation.md)
@@ -24,9 +24,13 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Flash-vs-Bootflash](COMPUTER-NETWORKS/flash-vs-bootflash.md)
 - [Bundle-vs-Install-Mode](COMPUTER-NETWORKS/bundle-vs-install-mode.md)
 
-**VPNs & Cryptography:**
+### 🔐 VPNs & Cryptography
 
-- [IPsec & IKEv1 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/ipsec-ikev1-theory.md)
+#### 📖 Theory
+- [IPsec & IKEv1 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev1-theory.md)
+
+#### 🛠️ Labs
+- [LAB1_MTU_vs_MSS] (COMPUTER-NETWORKS/VPNs/LABS/COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev1-theory.md)
 
 
 ## 🐧 Linux
@@ -36,3 +40,4 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 
 ## 🪟 Windows
+- *(Tutaj w przyszłości dodasz linki do Windowsa)*
