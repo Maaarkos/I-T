@@ -23,6 +23,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 ## 🌐 Computer Networks
 - [OSI Model & Encapsulation](COMPUTER-NETWORKS/osi-model-and-encapsulation.md)
 - [TCP](COMPUTER-NETWORKS/tcp.md)
+- [Why we should use lower subnet Mask ?](COMPUTER-NETWORKS/subnet-mask.md)
 - [Cisco - Logging and Debugging](COMPUTER-NETWORKS/cisco-logs-and-debug.md)
 - [MTU vs MSS](COMPUTER-NETWORKS/mtu-mss.md)
 - [Testing - Ports](COMPUTER-NETWORKS/ports.md)
