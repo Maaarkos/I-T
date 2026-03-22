@@ -13,9 +13,7 @@ While the internet was born from this military project in the late 1960s, the of
 The "Fathers of the Internet" are two brilliant engineers: **Vint Cerf** and **Bob Kahn**. They are the ones who invented IP addresses, TCP, UDP, and the concept of fragmentation we deal with today!
 
 <div align="center">
-  <a href="IMAGES/Vint_Cerf_Bob_Kahn.png.png" target="_blank">
-    <img src="IMAGES/Vint_Cerf_Bob_Kahn.png.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
+  <img src="IMAGES/Vint_Cerf_Bob_Kahn.png" style="max-width: none; width: 1000px;">
 </div>
 
 ### 🚂 The Dark Ages Before 1983 (Did they only use Layer 2?)
