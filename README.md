@@ -18,6 +18,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 ## 🌐 IT
 
 - [History](IT/history.md)
+- [How does it work ?](IT/how_does_it_work.md)
 
 ## 🌐 Computer Networks
 - [OSI Model & Encapsulation](COMPUTER-NETWORKS/osi-model-and-encapsulation.md)
