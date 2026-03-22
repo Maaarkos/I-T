@@ -95,6 +95,77 @@ Hackers have invented several brilliant attacks based on the lack of the DF bit:
 *   ⏳ **"Waiting for Godot" (Buffer Exhaustion):**
     The hacker sends fragmented packets but intentionally *never* sends the final piece. Your VPN concentrator catches pieces 1, 2, and 3. It puts them in RAM and waits for piece 4. It waits, and waits... The hacker sends millions of these unfinished puzzles. The RAM fills up with "garbage" waiting for endings until the router crashes.
 
+---
+
+### 🛠️ MTU Sweeping & PMTUD (The Engineer's Radar)
+
+When we suspect that a VPN tunnel (or an ISP along the path) is dropping or fragmenting our packets, we don't guess. We use a tool built into every operating system to "probe" the exact size of the pipe. This technique is called **MTU Sweeping**.
+
+**What is PMTUD?**
+**PMTUD** stands for *Path MTU Discovery*. It is a standard internet mechanism that allows computers to dynamically discover the narrowest bottleneck (the smallest MTU) on the entire route between the sender and the receiver. This allows the computer to send packets of the correct size from the start and avoid fragmentation.
+
+**How does the `ping -f -l` command work?**
+To manually trigger the PMTUD mechanism in Windows, we use the command:
+`ping <IP> -f -l <size>`
+
+*   **The `-f` switch (Force DF / Do Not Fragment):** This goes into the IPv4 header (Layer 3) and hardcodes the **DF (Don't Fragment)** bit to 1. It tells all routers along the path: *"If I am too big for your doors, you must kill me, but under no circumstances are you allowed to cut me into pieces!"*
+*   **The `-l` switch (Length):** Specifies the size of the payload (the raw data) that we put inside the ICMP packet.
+
+**The Return Letter (How the router reports an error)**
+When our giant packet with the `-f` flag hits a router that has an MTU that is too small (e.g., the entrance to an IPsec tunnel), the router kills it. But it doesn't do it quietly!
+
+The router sends a special return letter back to our computer. This is an **ICMP Type 3, Code 4** packet.
+*   **Type 3:** Destination Unreachable.
+*   **Code 4:** Fragmentation Needed and Don't Fragment was Set.
+
+> **🛑 The Blocked Return Letter (The Silent Killer)**
+> Assume normal ping works. You send a large packet (1472 bytes) with the `-f` flag. The packet hits the IPsec router. The router kills it and tries to send you the "Fragmentation Needed" letter.
+> If an overzealous firewall along the path blocks this return letter, your Windows console will simply say:
+> `Request timed out.`
+> Instead of a beautiful, clear MTU error message, you get dead silence. This breaks PMTUD completely!
+
+---
+
+### 🔬 Practical Lab: Sweeping the Firepower Tunnel
+
+Let's look at a real-world example on our Cisco Firepower (FPR) with the IPsec VTI tunnel.
+
+First, we check the MTU of the tunnel interface on the firewall:
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+FPR# show interface Tunnel1 | include MTU
+  Hardware is Virtual Tunnel, MAC address N/A, MTU 1445
+      IPsec MTU Overhead : 55
+</pre>
+The Tunnel MTU is **1445 bytes**.
+
+Now, from a Windows PC behind the firewall, we start our MTU Sweep. We try sending 1417 bytes of data:
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+C:\Users\Administrator>ping 192.168.99.10 -f -l 1417
+
+Pinging 192.168.99.10 with 1417 bytes of data:
+Reply from 192.168.99.10: bytes=1417 time=2ms TTL=128
+Reply from 192.168.99.10: bytes=1417 time=2ms TTL=128
+</pre>
+*Success! It passed through the tunnel.*
+
+Now, let's increase the payload by just 1 byte (to 1418):
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+C:\Users\Administrator>ping 192.168.99.10 -f -l 1418
+
+Pinging 192.168.99.10 with 1418 bytes of data:
+Packet needs to be fragmented but DF set.
+Packet needs to be fragmented but DF set.
+</pre>
+*Boom! The router killed the packet and sent us the ICMP Type 3 Code 4 message.*
+
+**🧮 The Math Behind the Sweep**
+Why did 1417 work, but 1418 failed? Let's look at the headers we added to the payload:
+*   ICMP Header = **8 bytes**
+*   IP Header = **20 bytes**
+*   Total Headers = **28 bytes**
+
+If we take our successful payload (`1417`) and add the headers (`28`), we get exactly **1445 bytes**. This matches the Tunnel MTU perfectly! Any single byte more (1418 + 28 = 1446) exceeds the tunnel's limit and triggers the fragmentation error.
+
 ### 🛡️ Modern Defenses & The "Smart Fridge" Botnet
 
 If hackers are so smart, why does the internet still work? Engineers had to invent defensive shields:
