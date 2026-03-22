@@ -1,11 +1,5 @@
 # 📜 The History of IT: From ENIAC to the Internet
 
-<div align="center">
-  <a href="IMAGES/history.png" target="_blank">
-    <img src="IMAGES/history.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
-
 Sometimes, to understand how modern networks work, we have to look back at how they were built. Here is a brief history of the Internet, protocols, and the very first computers.
 
 ---
@@ -17,6 +11,12 @@ Sometimes, to understand how modern networks work, we have to look back at how t
 While the internet was born from this military project in the late 1960s, the official "birthday" of the modern internet is considered to be **January 1, 1983**. On this day, all computers on the network transitioned to the TCP/IP protocol suite. 
 
 The "Fathers of the Internet" are two brilliant engineers: **Vint Cerf** and **Bob Kahn**. They are the ones who invented IP addresses, TCP, UDP, and the concept of fragmentation we deal with today!
+
+<div align="center">
+  <a href="IMAGES/Vint_Cerf_Bob_Kahn.png.png" target="_blank">
+    <img src="IMAGES/Vint_Cerf_Bob_Kahn.png.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
 
 ### 🚂 The Dark Ages Before 1983 (Did they only use Layer 2?)
 
