@@ -15,6 +15,10 @@
 
 Welcome to my personal IT documentation and troubleshooting notes. In this Knowledge Base I focus on Cisco Devices.
 
+## 🌐 IT
+
+- [History](IT/history.md)
+
 ## 🌐 Computer Networks
 - [OSI Model & Encapsulation](COMPUTER-NETWORKS/osi-model-and-encapsulation.md)
 - [Cisco - Logging and Debugging](COMPUTER-NETWORKS/cisco-logs-and-debug.md)
