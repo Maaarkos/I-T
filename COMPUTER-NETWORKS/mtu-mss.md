@@ -166,6 +166,20 @@ Why did 1417 work, but 1418 failed? Let's look at the headers we added to the pa
 
 If we take our successful payload (`1417`) and add the headers (`28`), we get exactly **1445 bytes**. This matches the Tunnel MTU perfectly! Any single byte more (1418 + 28 = 1446) exceeds the tunnel's limit and triggers the fragmentation error.
 
+**The Silent Killer: Blocking ICMP on the FPR**
+What happens if we block this specific ICMP message (Type 3, Code 4) on the Firepower firewall? The return letter is dropped. The PC never gets the memo, and we see the dreaded silent failure:
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+C:\Users\Administrator>ping 192.168.99.10 -f -l 1418
+
+Pinging 192.168.99.10 with 1418 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+</pre>
+*This is exactly why blocking all ICMP traffic is a terrible practice. It breaks PMTUD and creates "Black Holes" in the network.*
+
 ### 🛡️ Modern Defenses & The "Smart Fridge" Botnet
 
 If hackers are so smart, why does the internet still work? Engineers had to invent defensive shields:
