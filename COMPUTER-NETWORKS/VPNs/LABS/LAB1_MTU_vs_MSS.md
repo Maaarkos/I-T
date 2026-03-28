@@ -109,7 +109,7 @@ What does this do? It tells your PC to throw these 1500-byte bricks at a speed o
 Here are the CPU utilization results on the FPR:
 <div align="center">
   <a href="IMAGES/CPU_Utilization_UDP.png" target="_blank">
-    <img src="IMAGES/CPU_Utilization_UDP.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/CPU_Utilization_UDP.png" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
