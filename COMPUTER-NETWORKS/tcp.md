@@ -51,16 +51,26 @@ Thanks to this multiplier, today's standard TCP window in Windows or Linux can d
 
 ---
 
-### 🚦 Where do we start? (The Initial Window - initcwnd)
+### 🚦 The Battle of Two Windows (Slow Start)
 
-If we can send 1 GB, does an application like `iPerf3` immediately throw a gigabyte into the network? **NO.** That would instantly kill every router along the path.
+**IMPORTANT:** You might think that if the receiver says *"I can take 1 GB"*, the sender just blasts 1 GB into the network. **NO!** That would instantly kill every router along the path. 
 
-According to modern standards (RFC 6928), every modern operating system (Windows 10/11, Linux) has an **Initial Window** set to 10 packets.
+There are actually **TWO** independent windows at play during a transfer:
 
-1.  The transfer begins.
-2.  The PC sends exactly 10 packets (10 x 1460 bytes = approx. **14.6 KB**).
-3.  It waits for an ACK.
-4.  Did the ACK arrive? Great! It doubles the window to 20 packets. Then to 40, 80, 160... (This is called *TCP Slow Start*). It keeps doubling until the link says "enough" (a packet drops) or it reaches the maximum size negotiated by the multiplier.
+**1. The Receive Window (rwnd):** 
+This is the limit set by the *receiver*. It's the value from the TCP header multiplied by the WS factor (e.g., 64 KB x 256 = ~16,384 KB). This simply means: *"My RAM buffer can hold this much data at once."*
+
+**2. The Congestion Window (cwnd):** 
+This is a **hidden counter** managed by the *sender's* Operating System. The OS doesn't trust the network. It uses a mechanism called **TCP Slow Start**. It knows in advance that it must start small:
+*   It sends exactly 10 packets (approx. 14.6 KB).
+*   If ACKs come back successfully, it doubles it to 20 packets.
+*   Then 40, 80, 160... it keeps doubling until a packet drops (which indicates network congestion).
+
+**3. The Golden Rule of TCP:**
+The sender will **ALWAYS choose the smaller value** between the Receive Window and the Congestion Window. 
+
+> **🎙️ Summary:** 
+> Even if the receiver's network card screams *"I can take 16 MB!"*, the sender's Operating System dictates the actual flow. It will slowly ramp up the speed (Slow Start) to "feel" the network's capacity. Ultimately, the OS dynamically negotiates how much to send based on real-time network conditions, not just the receiver's theoretical limit.
 
 ---
 
