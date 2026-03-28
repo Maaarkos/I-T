@@ -3,7 +3,9 @@
 The goal of this experiment is to intentionally trigger IP fragmentation on Firepower (FPR) firewalls and observe the behavior on the endpoints (two Windows VMs running Wireshark 🦈).
 
 <div align="center">
-  <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 1000px;">
+  <a href="IMAGES/TOPO_VPN_S2S_VTI.png" target="_blank">
+    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
 </div>
 
 In this topology, we have an IPsec Site-to-Site VPN built on VTI using IKEv2 with an **AES-GCM** proposal. This is important because AES-GCM significantly reduces the header overhead. 
@@ -60,24 +62,100 @@ Only when the hardware or network on one side is worse.
 
 Returning to our topology: the 1460 MSS transmission from Computer A gets changed by FPR-A to 1380. So, one FPR uses the eraser for one host, and the other FPR does it for the second host. The computers have no idea who changed it. They think they negotiated it themselves!
 
----
-
-### 💥 The Attempt to Break It (FlexConfig)
+#### 💥 The Attempt to Break It (FlexConfig)
 
 But let's return to the attempt to disable this pesky MSS adjustment so the firewall stops erasing it. This would allow us to force fragmentation and overload the hardware. 
 
 I looked for this option in the FMC (Firepower Management Center) GUI and, as it turns out, it doesn't exist anywhere. So, I came up with the idea to bypass FMC and inject it directly into the underlying legacy ASA engine (the LINA process). I found out it is possible via **FlexConfig** using the `sysopt connection tcpmss` command.
 
 <div align="center">
-  <img src="IMAGES/FlexConfig_MSS.png" width="800">
+  <a href="IMAGES/FlexConfig_MSS.png" target="_blank">
+    <img src="IMAGES/FlexConfig_MSS.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
 </div>
 
 However, I got an error. As it turned out later, it cannot be done because the Tunnel MTU is calculated dynamically based on the physical MTU, and the MSS is calculated based on that Tunnel MTU. Even if we change the physical MTU, the tunnel MTU will just adapt automatically. 
 
-**Conclusion:** You cannot force this behavior on these specific FTD devices. I will probably manage to do it when I test this on standard IOS-XE routers later.
+**Conclusion:** You cannot force this behavior on these specific FTD devices via TCP.
 
 ---
 
-### 2️⃣ Triggering Fragmentation via UDP (iperf)
+### 2️⃣ Triggering Fragmentation via UDP (iperf3)
 
-*(Work in progress...)*
+Since TCP outsmarted us, the only chance to force fragmentation is to use the UDP protocol. 
+
+<div align="center">
+  <a href="IMAGES/Transmission_comp_A_UDP.png" target="_blank">
+    <img src="IMAGES/Transmission_comp_A_UDP.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+A payload of **1472 bytes** works perfectly. Why? Because we add the IP header (20B) + UDP header (8B), which gives us exactly **1500 bytes**—matching the PC's physical MTU perfectly.
+
+**Why not set a much larger value (e.g., `-l 2000`) to make the firewall sweat even more?**
+If we used a 2000-byte payload, the total packet would be 2028 bytes. What would your Windows/Linux PC do? 
+The network card in your PC has a hard MTU limit of 1500. When Windows sees you want to send 2028 bytes, it says: *"Oh boy, this won't fit through my own cable!"* and **cuts the packet before it even leaves the PC case!** 
+It would send two already-fragmented pieces to the Firepower. The Firepower would then take the first piece (1500) and cut it *again* (because its tunnel is 1445), creating a total mess (double fragmentation). The lab would lose its "purity," and your PC's CPU would be stressed just as much as the router.
+
+If you want to choke the router faster, don't increase the size of the brick. **Increase the frequency of throwing bricks!**
+
+#### The Command of Ultimate Destruction
+By default, `iperf3` for UDP sends only 1 Mbps (very little). We use the `-b` (Bandwidth) switch to change this:
+<pre style="background-color: #000000; color: #ffffff; padding: 15px; font-size: 15px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+iperf3 -c <IP> -u -l 1472 -b 1000M
+</pre>
+What does this do? It tells your PC to throw these 1500-byte bricks at a speed of 1 Gigabit per second. The Firepower suddenly receives tens of thousands of packets per second. It has to catch every single one, pass it through the CPU, cut it in two, encrypt it in ESP, and send it.
+
+Here are the CPU utilization results on the FPR:
+<div align="center">
+  <a href="IMAGES/CPU_Utilization_UDP.png" target="_blank">
+    <img src="IMAGES/CPU_Utilization_UDP.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+#### 🔪 The Butcher's Math: Analyzing Wireshark
+
+Let's trace the fragmented packets in Wireshark:
+<div align="center">
+  <a href="IMAGES/UDP_Fragmentation.png" target="_blank">
+    <img src="IMAGES/UDP_Fragmentation.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+We see the pieces divided into pairs (e.g., pair 25 and 26). It even indicates where it will be glued back together (`[Reassembled in: 26]`). The receiving OS is saying it will handle the reassembly.
+
+**But why was it split into such weird sizes: 1458 and 90 bytes?**
+Remember that the "Length" column in Wireshark is a sneaky bastard. It includes the Layer 2 Ethernet header (an additional 14 bytes)!
+
+Let's trace what happens step by step:
+1. The PC sends 1472 (Payload) + 8 (UDP) + 20 (IP) = **1500 bytes**. It hits the FPR.
+2. The FPR Tunnel MTU is **1445**, so the packet is 55 bytes too big.
+3. Before the router cuts the packet, it strips the IP header (20B). It is left with **1480 bytes of "meat"** on the scale.
+4. The router cuts this 1480 bytes of meat into two pieces: **1424 bytes** and **56 bytes**. 
+   *Why 1424?* Because of the **Rule of Divisibility by 8**. The first fragment's payload must be a multiple of 8. (1424 / 8 = 178). It's the largest multiple of 8 that fits inside the 1425-byte limit (1445 MTU - 20 IP header).
+
+**The final result before encryption:**
+*   **Piece 1:** [Xeroxed IP Header: 20B] + [Meat: 1424B] = **1444 bytes**. *(Add 14B L2 in Wireshark = 1458)*
+*   **Piece 2:** [Xeroxed IP Header: 20B] + [Meat: 56B] = **76 bytes**. *(Add 14B L2 in Wireshark = 90)*
+
+Notice that *both* pieces must have an IP header. One already had it, but we had to attach a new 20-byte IP header to the second piece (hence 56 + 20 = 76).
+
+*(Keep in mind that when this flies over the internet, we add ESP and external IP headers to these two pieces. Piece 1 will be ~1499 bytes on the physical wire, and Piece 2 will be 131 bytes).*
+
+#### 🧩 Fragment Offset & Identification
+
+Finally, what is the `Offset` in Wireshark? This parameter tells the receiving RAM how to glue the pieces back together (how much to shift them so they align perfectly). 
+
+You might ask: *"Why do we constantly see Offset 0 here?"* 
+In our case, the packets were split into pairs (only one cut per packet). The first piece of *every* pair always has an Offset of 0 because it goes at the very beginning. The second piece gets the larger offset.
+
+**How does the OS know which pairs belong together?**
+That's what the **Identification (ID)** number is for. In the screenshot below, you can clearly see different offsets, but the exact same Identification number for pieces belonging to the same pair.
+
+<div align="center">
+  <a href="IMAGES/offset_ID.png" target="_blank">
+    <img src="IMAGES/offset_ID.png" style="max-width: none; width: 1200px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+The piece with Offset 0 arrives first, and the second piece arrives later, but thanks to the matching ID, the system glues them together flawlessly.
