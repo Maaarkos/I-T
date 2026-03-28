@@ -102,7 +102,7 @@ If you want to choke the router faster, don't increase the size of the brick. **
 #### The Command of Ultimate Destruction
 By default, `iperf3` for UDP sends only 1 Mbps (very little). We use the `-b` (Bandwidth) switch to change this:
 <pre style="background-color: #000000; color: #ffffff; padding: 15px; font-size: 15px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
-iperf3 -c <IP> -u -l 1472 -b 1000M
+iperf3 -c 192.168.99.10 -u -l 1472 -b 1000M
 </pre>
 What does this do? It tells your PC to throw these 1500-byte bricks at a speed of 1 Gigabit per second. The Firepower suddenly receives tens of thousands of packets per second. It has to catch every single one, pass it through the CPU, cut it in two, encrypt it in ESP, and send it.
 
