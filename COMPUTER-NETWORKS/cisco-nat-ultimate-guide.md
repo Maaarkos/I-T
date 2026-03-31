@@ -2,35 +2,42 @@
 
 In the Cisco world, NAT is often confusing because documentation mixes **WHAT** we are changing (Source vs. Destination) with **HOW** we configure it (Auto NAT vs. Manual NAT). 
 
-Let's organize this chaos into a clean, visual decision tree.
+Let's organize this chaos into a clean, visual hierarchy.
 
 ---
 
 ### 🌳 The NAT Decision Tree
 
-* **🌐 CISCO NAT**
-  * │
-  * ├── **1️⃣ CHANGING THE SOURCE** *(Goal: Hide the sender)*
-  * │    ├── **Static NAT (1-to-1)**
-  * │    │    └── ⚙️ *Config:* Auto NAT (Object) | 🎯 *Use Case:* Dedicated Mail Server IP
-  * │    ├── **Dynamic PAT (Many-to-1)**
-  * │    │    └── ⚙️ *Config:* Auto NAT (Object) | 🎯 *Use Case:* Entire Office to Internet
-  * │    └── **Dynamic NAT (Pool-to-Pool)**
-  * │         └── ⚙️ *Config:* Legacy | 🎯 *Use Case:* Dead technology
-  * │
-  * ├── **2️⃣ CHANGING THE DESTINATION** *(Goal: Change the recipient on the fly)*
-  * │    ├── **Static PAT (Port Forwarding)**
-  * │    │    └── ⚙️ *Config:* Auto NAT (Object) | 🎯 *Use Case:* Inbound Web Server in DMZ
-  * │    └── **Static Dest NAT (IP Hijacking)**
-  * │         └── ⚙️ *Config:* Manual NAT (Sec 1) | 🎯 *Use Case:* Redirect Dead IP (1.1.1.1 -> 9.9.9.9)
-  * │
-  * ├── **3️⃣ TARGET-DEPENDENT CHANGE** *(Goal: Strict conditions)*
-  * │    └── **Twice NAT / Policy NAT**
-  * │         └── ⚙️ *Config:* Manual NAT (Sec 1) | 🎯 *Use Case:* NAT only for a specific VPN partner
-  * │
-  * └── **4️⃣ NO CHANGE** *(Goal: Bypass NAT)*
-  *      └── **Identity NAT (NAT Exempt)**
-  *           └── ⚙️ *Config:* Manual NAT (Top of Sec 1) | 🎯 *Use Case:* Protect IPsec VPN traffic
+**🌐 CISCO NAT**
+
+*   **1️⃣ CHANGING THE SOURCE** *(Goal: Hide the sender)*
+    *   **Static NAT (1-to-1)**
+        *   ⚙️ *Config:* Auto NAT (Object)
+        *   🎯 *Use Case:* Dedicated Mail Server IP
+    *   **Dynamic PAT (Many-to-1)**
+        *   ⚙️ *Config:* Auto NAT (Object)
+        *   🎯 *Use Case:* Entire Office to Internet
+    *   **Dynamic NAT (Pool-to-Pool)**
+        *   ⚙️ *Config:* Legacy
+        *   🎯 *Use Case:* Dead technology
+
+*   **2️⃣ CHANGING THE DESTINATION** *(Goal: Change the recipient on the fly)*
+    *   **Static PAT (Port Forwarding)**
+        *   ⚙️ *Config:* Auto NAT (Object)
+        *   🎯 *Use Case:* Inbound Web Server in DMZ
+    *   **Static Dest NAT (IP Hijacking)**
+        *   ⚙️ *Config:* Manual NAT (Sec 1)
+        *   🎯 *Use Case:* Redirect Dead IP (1.1.1.1 -> 9.9.9.9)
+
+*   **3️⃣ TARGET-DEPENDENT CHANGE** *(Goal: Strict conditions)*
+    *   **Twice NAT / Policy NAT**
+        *   ⚙️ *Config:* Manual NAT (Sec 1)
+        *   🎯 *Use Case:* NAT only for a specific VPN partner
+
+*   **4️⃣ NO CHANGE** *(Goal: Bypass NAT)*
+    *   **Identity NAT (NAT Exempt)**
+        *   ⚙️ *Config:* Manual NAT (Top of Sec 1)
+        *   🎯 *Use Case:* Protect IPsec VPN traffic
 
 ---
 
