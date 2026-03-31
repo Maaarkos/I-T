@@ -53,7 +53,8 @@ Let's organize this chaos once and for all.
 *   **B) Static Destination NAT (IP Hijacking / Redirection)**
     *   **Direction:** Inside -> Outside.
     *   **How to configure:** As **Manual NAT** (Section 1 in FMC).
-    *   **Example:** A legacy machine stubbornly sends logs to a dead, hardcoded IP (`1.1.1.1`). The firewall intercepts it and silently replaces the destination with the new server (`9.9.9.9`).
+    *   **Example 1 (The Dead IP):** A legacy machine stubbornly sends logs to a dead, hardcoded IP (`1.1.1.1`). The firewall intercepts it and silently replaces the destination with the new server (`9.9.9.9`).
+    *   **Example 2 (The Clever Admin):** Employees in the office try to bypass corporate web filters by manually setting Google DNS (`8.8.8.8`) in Windows. You, as a clever admin, create a UN-NAT rule: *"Any traffic heading to 8.8.8.8 on port 53 (DNS), intercept it on the fly and change the destination to our internal corporate DNS server (192.168.10.200)."* The user thinks they are asking Google, but they are actually asking your server, which happily blocks TikTok. 😎
 
 ---
 
@@ -63,7 +64,7 @@ Let's organize this chaos once and for all.
 *   **A) Manual NAT (Section 1 in FMC)**
     *   **Direction:** Any.
     *   **How it works:** In a single rule, the firewall checks **BOTH** the Source and the Destination before making a decision.
-    *   **Example:** *"Change the source to a public IP, BUT ONLY IF the packet is going to the specific subnet of our business partner."*
+    *   **Example (The Bank Whitelist):** Imagine a partner Bank's server has a strict firewall whitelist. They require all our API connections to come from a specific IP, e.g., `192.168.2.99`. We configure a Manual NAT (Policy NAT) rule: *"If traffic is going specifically to the Bank's IP, translate our source to 192.168.2.99."* Meanwhile, a standard Auto NAT handles all other regular internet traffic for the office.
 
 ---
 
