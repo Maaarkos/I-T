@@ -30,6 +30,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Hairpining](COMPUTER-NETWORKS/hairpining.md)
 - [Flash-vs-Bootflash](COMPUTER-NETWORKS/flash-vs-bootflash.md)
 - [Bundle-vs-Install-Mode](COMPUTER-NETWORKS/bundle-vs-install-mode.md)
+- [The Ultimate Cisco NAT Guide (FMC & ASA)](COMPUTER-NETWORKS/cisco-nat-ultimate-guide.md)
 
 ### 🔐 VPNs & Cryptography
 
