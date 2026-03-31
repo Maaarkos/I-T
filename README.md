@@ -36,6 +36,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 #### 📖 Theory
 - [IPsec & IKEv1 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev1-theory.md)
 - [IPsec & IKEv2 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev2-theory.md)
+- [Packet Flow](COMPUTER-NETWORKS/VPNs/THEORY/packet_flow.md)
 
 #### 🛠️ Labs
 - [LAB1_MTU_vs_MSS](COMPUTER-NETWORKS/VPNs/LABS/LAB1_MTU_vs_MSS.md)
