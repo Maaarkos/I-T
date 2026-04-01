@@ -121,7 +121,8 @@ This is where you find the most valuable troubleshooting information.
 </div>
 
 **What to look for in this output:**
-*   **`pkts encaps` / `encrypt` / `decrypt`:** If you send 4 ping packets, you should see these counters increase by exactly 4. If `encrypt` increases but `decrypt` stays at 0, traffic is leaving your firewall but the return traffic is being dropped or lost!
+*   **`pkts encaps` / `encrypt` / `decrypt`:** If you send 4 ping packets, you should see BOTH `encrypt` and `decrypt` counters increase by exactly 4 (4 requests encrypted and sent, 4 replies received and decrypted). 
+    *   *Troubleshooting Tip:* If `encrypt` increases by 4 but `decrypt` stays at 0, it means your traffic is successfully leaving the firewall, but the return traffic is being dropped somewhere along the path or by the remote peer!
 *   **MTU:** You can verify the physical MTU and the calculated IPsec Tunnel MTU.
 *   **SPI:** You can see the unique Security Parameter Index numbers for the inbound and outbound tunnels.
 *   **Transform Set:** You can verify exactly which ciphers (e.g., AES-GCM) were successfully negotiated for this specific child tunnel.
