@@ -40,8 +40,8 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Packet Flow](COMPUTER-NETWORKS/VPNs/THEORY/packet_flow.md)
 
 #### 🛠️ Labs
-- [LAB1_S2S_IKEv2_VTI](COMPUTER-NETWORKS/VPNs/LABS/LAB2_S2S_IKEv2_VTI.md)
-- [LAB2_MTU_vs_MSS](COMPUTER-NETWORKS/VPNs/LABS/LAB1_MTU_vs_MSS.md)
+- [LAB1_S2S_IKEv2_VTI](COMPUTER-NETWORKS/VPNs/LABS/LAB1_S2S_IKEv2_VTI.md)
+- [LAB2_MTU_vs_MSS](COMPUTER-NETWORKS/VPNs/LABS/LAB2_MTU_vs_MSS.md)
 
 
 ## 🐧 Linux
