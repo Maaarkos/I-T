@@ -29,8 +29,8 @@ As seen below, we select an IKEv2 VPN based on VTI interfaces:
 First, we select the two Firepower devices that will terminate the VPN tunnel.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_DEVICES.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_DEVICES.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_DEVICES.png.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_TI_DEVICES.png.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -38,8 +38,8 @@ First, we select the two Firepower devices that will terminate the VPN tunnel.
 Next, we create the virtual interfaces, map them to the physical external interfaces, and assign them IP addresses.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -56,8 +56,8 @@ Next, we create the virtual interfaces, map them to the physical external interf
 Since we are using VTI (Route-Based VPN), we must tell the firewall how to reach the remote LAN. We simply point a static route for the remote subnet out the newly created Tunnel interface.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_Static_Route.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_Static_Route.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -66,8 +66,8 @@ We must explicitly allow traffic to and from the VPN zone.
 *Important:* Remember that besides allowing traffic from LAN-A to LAN-B, we must also allow traffic to the "Next Hop" interfaces. We do this by including the `VPN-ZONE` (which contains our VTI interfaces) in the ACP rules.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_ACP.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_ACP.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -93,8 +93,8 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
 
 **1. Check the VTI Interface Status:**
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2__Ti_Verification1.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2__Ti_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_Verification1.png" target="_blank">
+    <img src="IMAGES/SS2S_IKEv2_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
