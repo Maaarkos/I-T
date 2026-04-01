@@ -1,0 +1,127 @@
+Chcemy stworzyc  VPNa S2S_IKEv2_VTI wedlug ponizszej topologii:
+
+<div align="center">
+  <a href="IMAGES/TOPO_VPN_S2S_VTI.png" target="_blank">
+    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+Aby to zrobic z FMC nalezy przejsc do Devices zakladki VPN Site to Site
+
+Jak widac na screenie wybralem VPNa ILKEv2 na bazie interfejsow VTI:
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_VTI.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI.png.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+Z poziomu GUI stworzenie takiego vpna jest dosc proste. 
+
+1. Wybranie urzadzen
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_VTI_DEVICES.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_DEVICES.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+2. Stworzenie wirtualnych interfejsow i przypiecie ich do fizycznych. Nadanie adresow interfejsa tunbelowym
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+Nadajemy adresy APIA poniewaz mamy pewnosc, ze nie wejda one w konflikt z adresami w sieci LAN. To najbezpieczniejsza praktyka. Przypominam, ze to jest polaczenie point-to-point
+
+Co oznaczaja jeszcze poszczegolne pola ?
+
+Tunnel source ip - jesli FPRy sa za natem i maja na przyklad adresy 192.168.1.1 to przy zaznczeniu tego wkracza slynny nat-t i nadaje do adresu publicznego port 4500
+
+Sned loca identity to peers:
+
+Kiedy masz zmienne IP (np. LTE/Neostrada) albo jesteś za NAT-em. Wtedy zaznaczasz to pole i wpisujesz np. nazwę firewall-maro.cisco.com. Node B sprawdza wtedy nazwę, a nie adres IP, z którego przyszedł pakiet. To taki "dowód osobisty z nazwiskiem zamiast adresu zameldowania".
+
+Kto to robi: Sklepy detaliczne (Żabki, Biedronki), bankomaty, place budowy, czy małe oddziały firm, które jadą na tanim internecie (LTE/5G, Starlink, zwykła Neostrada). Kupno stałego, publicznego IP dla 500 małych sklepów to kosmiczny koszt.
+Jak to działa technicznie: Centrala (Hub) ma stały adres IP. Oddziały (Spokes) mają zmienne IP. Tunel może wstać TYLKO wtedy, gdy to Oddział "zadzwoni" do Centrali. Centrala nie może zadzwonić do Oddziału, bo nie wie, jaki on ma dzisiaj adres IP
+
+Właśnie przez to pole Local Identity! Oddział nie mówi "Cześć, jestem IP 80.x.x.x", tylko mówi "Cześć, jestem Sklep-Krakow". Centrala sprawdza w bazie: "Aha, znam Sklep-Krakow, hasło się zgadza, wpuszczam!".
+
+opcja: Send Virtual Tunnel Interface IP to the peers
+
+Ty ręcznie przypisujesz adres VTI (np. 169.254.6.1) na swoim firewallu. Zaznaczenie tej opcji sprawia po prostu, że Twój firewall w trakcie zestawiania tunelu mówi sąsiadowi: "Słuchaj stary, jakbyś chciał mi wysłać jakiś ruch routingowy, to mój adres wewnątrz tej rury to 169.254.6.1".
+
+3. Stworzenie routingu
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_VTI_Static_Route.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+bo przeciez musimy pokierowac ruch gdzie ma isc
+
+4. Zezwolenie ruchu do strefy VPNowej. Trzeba o tym pamietac ze oprocz zezwolenia z LAN-A do LAN-B w obie strony to musimy rowniez zezwolic na ruch nastepnych skokow. Wrzucamy tutaj strefe VPNowa, do ktorej naleza interfejsy nastepnych skokow.
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_VTI_ACP.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+
+5. Teraz nat zrodlowy - czy z lan - A zakladamy maske do LAN-B -> nie nic nie robimy a nawet powinnismy zrobic NAT Exmpet czyli brak nat
+
+<div align="center">
+  <a href="IMAGES/S2S_NAT_Exempt.png" target="_blank">
+    <img src="IMAGES/S2S_NAT_Exempt.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+W naszym przypadku jak widac ta regula NAT jest na szaro. Jest wylaczona ale mimo wszystko VPN dziala jak nalezy. Zrodlowy adresy nie wpadaja w Auto Nat a czemu ? Poniewaz wedlug routingu, ktory ustawilismy nastepnym skokiem  jest interfejs VPNowy nalezy do strefy VPN-ZONE
+natomiast jak widac na rysunku nie mamy tutaj dst VPN-Zone a outside wiec nie ma zadnej reguly i nie dochodzi do natu. 
+
+Najlepiej sobie zadac pytanie jak przeplywea pakiet abysmy mogli sobie skonfigurowac poszczegolne rzeczy
+
+Werfikacja poprawnosci
+
+- mozemy ping z hosta A do B 
+
+- status tunelu
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2__Ti_Verification1.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2__Ti_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+- status tunelu 1
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_Verification2.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_Verification2.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+- status calego IPSEc
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_Verification3.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_Verification3.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+Mozemy stad wyciagnac sporo fajnych informacji na przyklad:
+
+<div align="center">
+  <a href="IMAGES/S2S_IKEv2_Verifiaction4.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_Verifiaction4.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+pkts encaps encrypt i decrypt. Zalozmy puszczamy ping leca 4 pakiety. Patrzymy i wartosc zwieksza sie o 4 zarowno dla enxrypt jak i decrypt.
+MTU fizyczny i MTU tunelu
+SPI inbound i outbound
+A takze transformset dla poszczegolnyvh tuneli
