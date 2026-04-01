@@ -38,8 +38,8 @@ First, we select the two Firepower devices that will terminate the VPN tunnel.
 Next, we create the virtual interfaces, map them to the physical external interfaces, and assign them IP addresses.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_DEVICES.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_TI_DEVICES.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
