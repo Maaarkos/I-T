@@ -6,7 +6,7 @@ In this lab, we will configure a Site-to-Site (S2S) IPsec VPN using **IKEv2** an
 
 <div align="center">
   <a href="IMAGES/TOPO_VPN_S2S_VTI.png" target="_blank">
-    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -21,7 +21,7 @@ As seen below, we select an IKEv2 VPN based on VTI interfaces:
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_VTI.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_VTI.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -29,8 +29,8 @@ As seen below, we select an IKEv2 VPN based on VTI interfaces:
 First, we select the two Firepower devices that will terminate the VPN tunnel.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_TI_DEVICES.png.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_DEVICES.png.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_DEVICES.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_TI_DEVICES.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -39,7 +39,7 @@ Next, we create the virtual interfaces, map them to the physical external interf
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2__TI_CREATE_INT.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -57,7 +57,7 @@ Since we are using VTI (Route-Based VPN), we must tell the firewall how to reach
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_TI_Static_Route.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -67,7 +67,7 @@ We must explicitly allow traffic to and from the VPN zone.
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_TI_ACP.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -76,7 +76,7 @@ Do we need to put a mask on the traffic going from LAN-A to LAN-B? No! We want t
 
 <div align="center">
   <a href="IMAGES/S2S_NAT_Exempt.png" target="_blank">
-    <img src="IMAGES/S2S_NAT_Exempt.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_NAT_Exempt.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -94,21 +94,21 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
 **1. Check the VTI Interface Status:**
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verification1.png" target="_blank">
-    <img src="IMAGES/SS2S_IKEv2_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verification1.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
 **2. Check the Tunnel Details:**
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verification2.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification2.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verification2.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
 **3. Check the Overall IPsec Status:**
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verification3.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification3.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verification3.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -116,7 +116,7 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
 This is where you find the most valuable troubleshooting information.
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verifiaction4.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verifiaction4.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verifiaction4.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
