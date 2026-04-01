@@ -6,7 +6,7 @@ In this lab, we will configure a Site-to-Site (S2S) IPsec VPN using **IKEv2** an
 
 <div align="center">
   <a href="IMAGES/TOPO_VPN_S2S_VTI.png" target="_blank">
-    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/TOPO_VPN_S2S_VTI.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -57,7 +57,7 @@ Since we are using VTI (Route-Based VPN), we must tell the firewall how to reach
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_TI_Static_Route.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -67,7 +67,7 @@ We must explicitly allow traffic to and from the VPN zone.
 
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_TI_ACP.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -76,7 +76,7 @@ Do we need to put a mask on the traffic going from LAN-A to LAN-B? No! We want t
 
 <div align="center">
   <a href="IMAGES/S2S_NAT_Exempt.png" target="_blank">
-    <img src="IMAGES/S2S_NAT_Exempt.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_NAT_Exempt.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -94,14 +94,14 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
 **1. Check the VTI Interface Status:**
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verification1.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification1.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
 **2. Check the Tunnel Details:**
 <div align="center">
   <a href="IMAGES/S2S_IKEv2_Verification2.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification2.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/S2S_IKEv2_Verification2.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
