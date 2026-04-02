@@ -56,6 +56,11 @@ Let's organize this chaos once and for all.
     *   **Example 1 (The Dead IP):** A legacy machine stubbornly sends logs to a dead, hardcoded IP (`1.1.1.1`). The firewall intercepts it and silently replaces the destination with the new server (`9.9.9.9`).
     *   **Example 2 (The Clever Admin):** Employees in the office try to bypass corporate web filters by manually setting Google DNS (`8.8.8.8`) in Windows. You, as a clever admin, create a UN-NAT rule: *"Any traffic heading to 8.8.8.8 on port 53 (DNS), intercept it on the fly and change the destination to our internal corporate DNS server (192.168.10.200)."* The user thinks they are asking Google, but they are actually asking your server, which happily blocks TikTok. 😎
 
+> **💡 ISP/Home Router Trivia: The "DMZ" Feature**
+> The so-called "DMZ" feature found on typical ISP ONT devices (Optical Network Terminals - modem + media converter) is actually just a massive **Destination NAT (Outside NAT)**! 
+> The ONT translates *everything* coming to the public IP directly to a specific private IP (which is usually the WAN port of your own router, or your PC if you don't have a router). 
+> **PRO-TIP:** Instead of using the ISP's "DMZ", it is always best to call your ISP and ask them to switch their device into a transparent **Bridge Mode** (making it just a dumb pipe). This allows your own firewall to get the public IP directly on its interface, completely avoiding the nightmare of Double NAT!
+
 ---
 
 ### 🔀 3️⃣ TARGET-DEPENDENT CHANGE (Twice NAT / Policy NAT)
