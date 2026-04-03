@@ -61,8 +61,8 @@ Next, we create the virtual interfaces, map them to the physical external interf
 Since we are using VTI (Route-Based VPN), we must tell the firewall how to reach the remote LAN. We simply point a static route for the remote subnet out the newly created Tunnel interface.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_Static_Route.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/Static_route.png" target="_blank">
+    <img src="IMAGES/Static_route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -71,8 +71,8 @@ We must explicitly allow traffic to and from the VPN zone.
 *Important:* Remember that besides allowing traffic from LAN-A to LAN-B, we must also allow traffic to the "Next Hop" interfaces. We do this by including the `VPN-ZONE` (which contains our VTI interfaces) in the ACP rules.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_ACP.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_TI_ACP.png" target="_blank">
+    <img src="IMAGES/SS2S_IKEv2_TI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
