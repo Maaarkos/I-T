@@ -29,8 +29,8 @@ As seen below, we select an IKEv2 VPN based on VTI interfaces:
 First, we select the two Firepower devices that will terminate the VPN tunnel.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_TI_DEVICES.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_DEVICES.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S-devices.png" target="_blank">
+    <img src="IMAGES/S2S-devices.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -38,8 +38,8 @@ First, we select the two Firepower devices that will terminate the VPN tunnel.
 Next, we create the virtual interfaces, map them to the physical external interfaces, and assign them IP addresses.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_INT.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_INT.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S-interface.png" target="_blank">
+    <img src="IMAGES/S2S-interface.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -47,17 +47,22 @@ Next, we create the virtual interfaces, map them to the physical external interf
 > We assign APIPA addresses (e.g., `169.254.x.x`) to the tunnel interfaces because we can be 100% sure they will never conflict with any LAN subnets in our company. It is the safest and most standard practice for point-to-point tunnels.
 
 **Understanding the Advanced Options:**
-*   **Tunnel source IP:** If your FPRs are behind a NAT device (e.g., they have private IPs like `192.168.1.1` on their outside interfaces), checking this box triggers the famous **NAT-T**. It encapsulates the ESP packets into UDP port 4500 so they can traverse the upstream PAT router.
+
+*   **Tunnel source IP:** If your FPR is behind a NAT device (e.g., it has a private IP like `192.168.1.1` on its outside interface), checking this box triggers the famous **NAT-T**. It encapsulates the ESP packets into UDP port 4500 so they can traverse the upstream PAT router.
+    *   *Correction!* It's not that *both* FPRs can be behind NAT. Only the **Initiator** can be behind NAT. The **Responder (Server)** MUST have a public IP. Why? Imagine trying to connect to a private IP from across the world—nobody has a route to private IPs over the internet! So NAT-T is great, but primarily for the initiator. 
+    *   *You might ask:* "Then how the hell do VPNs like WireGuard, Tailscale, or ZeroTier work when both sides are behind NAT?" You can find the answer in this section: [Next-Gen VPNs: WireGuard & Tailscale](../THEORY/wireguard-tailscale-vs-ipsec.md).
+
 *   **Send local identity to peers:** This is a lifesaver when you have dynamic IPs (LTE/DSL) or are behind NAT. Instead of saying *"Hi, I am IP 80.x.x.x"*, the branch firewall says *"Hi, I am Branch-Krakow"*. The HQ checks its database: *"Ah, I know Branch-Krakow, the password matches, let them in!"*. It acts like an ID card with a name instead of a home address.
     *   *Who uses this?* Retail stores, ATMs, construction sites, or small branches running on cheap internet (LTE/5G, Starlink). Buying a static public IP for 500 small shops is an astronomical cost. The tunnel can ONLY come up if the Branch "calls" the HQ (because the HQ doesn't know the Branch's IP today).
+
 *   **Send Virtual Tunnel Interface IP to the peers:** You manually assign a VTI address (e.g., `169.254.6.1`) on your firewall. Checking this option simply makes your firewall tell its neighbor during negotiation: *"Listen man, if you want to send me any routing traffic, my address inside this pipe is 169.254.6.1"*.
 
 #### 3. Static Routing
 Since we are using VTI (Route-Based VPN), we must tell the firewall how to reach the remote LAN. We simply point a static route for the remote subnet out the newly created Tunnel interface.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_TI_Static_Route.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_VTI_Static_Route.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_Static_Route.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -66,8 +71,8 @@ We must explicitly allow traffic to and from the VPN zone.
 *Important:* Remember that besides allowing traffic from LAN-A to LAN-B, we must also allow traffic to the "Next Hop" interfaces. We do this by including the `VPN-ZONE` (which contains our VTI interfaces) in the ACP rules.
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_TI_ACP.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_TI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2_VTI_ACP.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2_VTI_ACP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -93,8 +98,8 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
 
 **1. Check the VTI Interface Status:**
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_Verification1.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S_IKEv2__Ti_Verification1.png" target="_blank">
+    <img src="IMAGES/S2S_IKEv2__Ti_Verification1.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -105,18 +110,12 @@ Always verify your configuration. The simplest test is a ping from Host A to Hos
   </a>
 </div>
 
-**3. Check the Overall IPsec Status:**
-<div align="center">
-  <a href="IMAGES/S2S_IKEv2_Verification3.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification3.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
-
-**4. Deep Dive into IPsec SA (Security Associations):**
+**3. Check the Overall IPsec SA Status (After 4 Pings):**
 This is where you find the most valuable troubleshooting information.
+
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_Verifiaction4.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verifiaction4.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/show-ipsec-sa.png" target="_blank">
+    <img src="IMAGES/show-ipsec-sa.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 

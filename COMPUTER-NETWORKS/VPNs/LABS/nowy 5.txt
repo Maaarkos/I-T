@@ -21,16 +21,16 @@ Z poziomu GUI stworzenie takiego vpna jest dosc proste.
 1. Wybranie urzadzen
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_DEVICES.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_DEVICES.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S-devices.png" target="_blank">
+    <img src="IMAGES/S2S-devices.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
 2. Stworzenie wirtualnych interfejsow i przypiecie ich do fizycznych. Nadanie adresow interfejsa tunbelowym
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_VTI_CREATE_INT.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/S2S-interface.png" target="_blank">
+    <img src="IMAGES/S2S-interface.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -38,7 +38,7 @@ Nadajemy adresy APIA poniewaz mamy pewnosc, ze nie wejda one w konflikt z adresa
 
 Co oznaczaja jeszcze poszczegolne pola ?
 
-Tunnel source ip - jesli FPRy sa za natem i maja na przyklad adresy 192.168.1.1 to przy zaznczeniu tego wkracza slynny nat-t i nadaje do adresu publicznego port 4500
+Tunnel source ip - jesli FPRy sa za natem i maja na przyklad adresy 192.168.1.1 to przy zaznczeniu tego wkracza slynny nat-t i nadaje do adresu publicznego port 4500. Blad nie FPRy a jeden FPR moze byc za NATem tylko inicjator. Serwer Responder zawsze musi miec publiczny adres a dlaczego ? To wyobrazmy sobie, ze z jakiejs miejsca na swiecie wpisujemy prywatny adres ? Nikt nie ma trasy do praywantych adresow a jedynie  sa porobione naty wiec NAT-T jest dobry ale dla inicjatoria. W takim razie mozecie zapytac to jak do cholery dzialaja VPNy typu: wireguard, tailscale, zerotier. To zobaczycie w tej sekcji: - [Other_VPNs](COMPUTER-NETWORKS/VPNs/THEORY/wireguard_tailscale.md)
 
 Sned loca identity to peers:
 
@@ -105,21 +105,16 @@ Werfikacja poprawnosci
   </a>
 </div>
 
-- status calego IPSEc
+- status calego IPSEc and after 4 pings
 
 <div align="center">
-  <a href="IMAGES/S2S_IKEv2_Verification3.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verification3.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/show-ipsec-sa.png" target="_blank">
+    <img src="IMAGES/show-ipsec-sa.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
 Mozemy stad wyciagnac sporo fajnych informacji na przyklad:
 
-<div align="center">
-  <a href="IMAGES/S2S_IKEv2_Verifiaction4.png" target="_blank">
-    <img src="IMAGES/S2S_IKEv2_Verifiaction4.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
 
 pkts encaps encrypt i decrypt. Zalozmy puszczamy ping leca 4 pakiety. Patrzymy i wartosc zwieksza sie o 4 zarowno dla enxrypt jak i decrypt.
 MTU fizyczny i MTU tunelu
