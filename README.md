@@ -38,7 +38,8 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [IPsec & IKEv1 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev1-theory.md)
 - [IPsec & IKEv2 - Architecture & Theory](COMPUTER-NETWORKS/VPNs/THEORY/ipsec-ikev2-theory.md)
 - [Packet Flow](COMPUTER-NETWORKS/VPNs/THEORY/packet_flow.md)
-- [Other_VPNs](COMPUTER-NETWORKS/VPNs/THEORY/wireguard_tailscale.md)
+- [Tailscale, WireGuard](COMPUTER-NETWORKS/VPNs/THEORY/wireguard_tailscale.md)
+- [Cloudflare-Tunnel](COMPUTER-NETWORKS/VPNs/THEORY/cloudflare.md)
 
 
 #### 🛠️ Labs
