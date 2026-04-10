@@ -57,4 +57,4 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - *(Tutaj w przyszłości dodasz linki do Windowsa)*
 
 # 📥 Downloadable LABS-FILES
-- [LABS-FILES] (COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
+- [LABS-FILES](COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
