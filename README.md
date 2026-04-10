@@ -55,3 +55,6 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 ## 🪟 Windows
 - *(Tutaj w przyszłości dodasz linki do Windowsa)*
+
+# 📥 Downloadable LABS-FILES
+- [LABS-FILES] (COMPUTER-NETWORKS/LABS-FILES
