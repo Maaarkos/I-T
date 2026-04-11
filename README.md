@@ -45,7 +45,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 #### 🛠️ Labs
 - [LAB1_S2S_IKEv2_VTI](COMPUTER-NETWORKS/VPNs/LABS/LAB1_S2S_IKEv2_VTI.md)
 - [LAB2_MTU_vs_MSS](COMPUTER-NETWORKS/VPNs/LABS/LAB2_MTU_vs_MSS.md)
-- [GRE over IPSec [Crypto Map vs Profile](COMPUTER-NETWORKS/VPNs/LABS/LAB2_MTU_vs_MSS.md)
+- [GRE over IPSec] [Crypto Map vs Profile](COMPUTER-NETWORKS/VPNs/LABS/LAB3_Crypto_Map_vs_Profile.md)
 
 
 ## 🐧 Linux
