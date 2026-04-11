@@ -24,6 +24,30 @@ In this lab, we configure **GRE over IPsec**. To make it interesting, we will us
 
 ---
 
+### 🪆 The "Matryoshka" Packet Structure (GRE over IPsec)
+
+To truly understand what we are configuring, we need to look at the packet structure. In this lab, we are using **IPsec in Transport Mode**. 
+
+Why Transport Mode? Because GRE already adds a new IP header (the "Delivery IP"). If we used IPsec Tunnel Mode, we would add *another* unnecessary IP header, creating a double matryoshka and wasting MTU space.
+
+Here is what the final packet looks like on the physical wire:
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
++-------------+-----------+------------+-------------+-------------+-------------+-----------+
+| Delivery IP |  ESP Hdr  | GRE Header | Original IP |   TCP/UDP   |   Payload   | ESP Trail |
+| (Public)    |           | (Protocol) | (Private)   |   Header    |   (Data)    | & Auth    |
++-------------+-----------+------------+-------------+-------------+-------------+-----------+
+                          | <-------------------- ENCRYPTED -------------------> |
+              | <------------------------- AUTHENTICATED ----------------------------------> |
+</pre>
+
+**How the Matryoshka is built (Step-by-Step):**
+1.  **The Core:** The user generates a standard packet with private IPs (`Original IP` + `TCP/UDP` + `Payload`).
+2.  **The GRE Wrapper:** The router takes this packet and wraps it in a `GRE Header`. It also adds a new `Delivery IP` header (the public IPs of the routers) so it can cross the internet. *(At this point, if you sniffed the traffic, you could read everything in plain text!)*
+3.  **The IPsec Armor:** The Crypto Map (or IPsec Profile) kicks in. It takes the GRE packet, encrypts everything *after* the Delivery IP, and wraps it in `ESP`. Now the packet is secure.
+
+---
+
 ### ⚖️ Configuration Comparison (Side-by-Side)
 
 Here is the configuration comparison. As you can see, using IPsec Profiles saves us about 5-6 lines of code and eliminates the need for complex ACLs.
