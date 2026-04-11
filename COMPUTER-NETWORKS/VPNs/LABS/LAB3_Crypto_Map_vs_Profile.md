@@ -30,12 +30,12 @@ To truly understand what we are configuring, we need to look at the packet struc
 
 Why Transport Mode? Because GRE already adds a new IP header (the "Delivery IP"). If we used IPsec Tunnel Mode, we would add *another* unnecessary IP header, creating a double matryoshka and wasting MTU space.
 
-Here is what the final packet looks like on the physical wire:
+Here is what the final packet looks like on the physical wire, complete with byte sizes:
 
-<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 13px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
 +-------------+-----------+------------+-------------+-------------+-------------+-----------+
 | Delivery IP |  ESP Hdr  | GRE Header | Original IP |   TCP/UDP   |   Payload   | ESP Trail |
-| (Public)    |           | (Protocol) | (Private)   |   Header    |   (Data)    | & Auth    |
+|  20 Bytes   | ~24 Bytes |  4 Bytes   |  20 Bytes   | 20/8 Bytes  |   (Data)    | ~16 Bytes |
 +-------------+-----------+------------+-------------+-------------+-------------+-----------+
                           | <-------------------- ENCRYPTED -------------------> |
               | <------------------------- AUTHENTICATED ----------------------------------> |
@@ -135,3 +135,21 @@ This lab is the absolute foundation for understanding **DMVPN (Dynamic Multipoin
 Imagine you are the network admin for 500 gas stations or retail stores. Nobody in their right mind is going to manually type thousands of static routes to every single store! You create GRE tunnels (in Multipoint mode), wrap them in IPsec, fire up OSPF or BGP, and the network literally "learns itself" where all the cash registers are located.
 
 **In short:** You use this everywhere you have cheap, untrusted internet (ISP), you need security (IPsec), and you don't want to manually manage routing (GRE + OSPF).
+
+---
+
+### 🚀 The Evolution: From DMVPN (mGRE) to FlexVPN (dVTI)
+
+What we discussed above is the foundation. But technology evolved. DMVPN used **mGRE** (Multipoint GRE). Today, the modern VTI equivalent is called **FlexVPN** (also known as Dynamic VTI or dVTI).
+
+**How it works (The massive difference):**
+
+*   **Old DMVPN (mGRE):** You had ONE virtual mGRE interface at the HQ. All 1,000 branches connected to this SINGLE interface. It was a nightmare for QoS (Quality of Service) and firewalls because the router saw it all as one giant bag of traffic.
+*   **New FlexVPN (dVTI):** At the HQ, you configure a `Virtual-Template`. When a branch (e.g., a retail store) "calls" the HQ, the HQ router dynamically "clones" this template and creates a brand new, dedicated VTI interface in RAM (e.g., `Virtual-Access 1`) *just for that one specific store*! When the store disconnects, the interface vanishes.
+
+**Why is this absolutely brilliant?**
+
+1.  **Zero GRE Overhead:** You save exactly 24 bytes on every single packet (20B Delivery IP + 4B GRE header are gone).
+2.  **Perfect QoS:** Since every store gets its own cloned interface at the HQ, you can easily shape one store to 10 Mbps and another to 50 Mbps. In old DMVPN, this was nearly impossible.
+3.  **Native Routing:** OSPF and BGP work natively right out of the box because VTI fully supports them.
+4.  **Simplicity:** The branch (Spoke) configuration is literally just a few lines of a standard static VTI. The HQ (Hub) just holds one master template.
