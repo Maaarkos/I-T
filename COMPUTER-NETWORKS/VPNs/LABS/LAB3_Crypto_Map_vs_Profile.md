@@ -153,3 +153,8 @@ What we discussed above is the foundation. But technology evolved. DMVPN used **
 2.  **Perfect QoS:** Since every store gets its own cloned interface at the HQ, you can easily shape one store to 10 Mbps and another to 50 Mbps. In old DMVPN, this was nearly impossible.
 3.  **Native Routing:** OSPF and BGP work natively right out of the box because VTI fully supports them.
 4.  **Simplicity:** The branch (Spoke) configuration is literally just a few lines of a standard static VTI. The HQ (Hub) just holds one master template.
+
+> **🎯 The Ultimate Summary (Clearing the Confusion):**
+> It is a very common misconception to group both of these under the "DMVPN" umbrella. They are actually two completely separate Cisco architectures:
+> *   **DMVPN** = mGRE + NHRP (+ IPsec)
+> *   **FlexVPN** = Dynamic VTI + IKEv2 *(Relies heavily on IKEv2's advanced built-in routing and config payloads instead of NHRP).*
