@@ -17,6 +17,12 @@ In short: This is mandatory knowledge for every true Network and Security Engine
 
 ### 🧩 The "Big Four" of DMVPN
 
+<div align="center">
+  <a href="IMAGES/DMVPN.png" target="_blank">
+    <img src="IMAGES/DMVPN.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
 DMVPN is built upon mGRE and NHRP, but to make it a fully-fledged technology (especially in Security!), we must add two more elements. Together, they form the "Big Four":
 
 1.  **mGRE (Multipoint GRE):** Builds a *single* tunnel interface to reach multiple destinations. No more manually typing hundreds of point-to-point tunnels. Pure relief for an engineer's fingers! 😌 *(In our lab, this will be the `Tunnel0` interface on the Hub).*
