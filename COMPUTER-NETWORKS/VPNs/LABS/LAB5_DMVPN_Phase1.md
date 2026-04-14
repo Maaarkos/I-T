@@ -1,3 +1,15 @@
+**Download the official lab instructions here:**
+[📥 Download Lab: 19.1.3 Lab - DMVPN Phase 1](../19.1.3 Lab - Implement a DMVPN Phase 1 Hub-to-Spoke Topology.docx)
+*(Note: Ensure the filename on your disk has no spaces, e.g., `19.1.3 Lab - Implement a DMVPN Phase 1 Hub-to-Spoke Topology.docx`, for the link to work properly).*
+
+---
+
+<div align="center">
+  <a href="IMAGES/DMVPN.png" target="_blank">
+    <img src="IMAGES/DMVPN.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
 # 🕸️ DMVPN Phase 1: The Godfather of SD-WAN
 
 **DMVPN (Dynamic Multipoint VPN)** is a Cisco-proprietary solution. While it doesn't always play nicely with equipment from other vendors, it is an absolute cornerstone of modern networking. In this article, we will focus specifically on **Phase 1** architecture.
@@ -17,11 +29,6 @@ In short: This is mandatory knowledge for every true Network and Security Engine
 
 ### 🧩 The "Big Four" of DMVPN
 
-<div align="center">
-  <a href="IMAGES/DMVPN.png" target="_blank">
-    <img src="IMAGES/DMVPN.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
 
 DMVPN is built upon mGRE and NHRP, but to make it a fully-fledged technology (especially in Security!), we must add two more elements. Together, they form the "Big Four":
 
