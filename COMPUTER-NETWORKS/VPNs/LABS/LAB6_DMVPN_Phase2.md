@@ -1,9 +1,20 @@
 # 🕸️ DMVPN Phase 2: Spoke-to-Spoke Direct Tunnels
 
+### 🗺️ The Topology
+
+<div align="center">
+  <a href="IMAGES/DMVPN.png" target="_blank">
+    <img src="IMAGES/DMVPN.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
 The ultimate goal of **DMVPN Phase 2** is to allow Spokes (e.g., R2 and R3) to communicate directly with each other, bypassing the Hub for the actual data payload. 
 
 However, it is crucial to note that **the very first packets will still flow through the Hub (R1)**. Why? Because Spoke R2 needs to ask the NHRP server (the Hub) for Spoke R3's public IP address. Once R2 gets the answer, it builds a dynamic, direct GRE tunnel to R3. 
+
 *(Note: The NHRP mapping to the Hub is static and "never expires", but the dynamic Spoke-to-Spoke mappings will expire after a period of inactivity to save memory).*
+
+### 📇 The NHRP Table in Action
 
 <div align="center">
   <a href="IMAGES/NHRP_Phase2.png" target="_blank">
