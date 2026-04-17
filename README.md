@@ -48,6 +48,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [LAB3_GRE over IPSec Crypto Map vs Profile](COMPUTER-NETWORKS/VPNs/LABS/LAB3_Crypto_Map_vs_Profile.md)
 - [LAB4_VTI over IPSec](COMPUTER-NETWORKS/VPNs/LABS/LAB4__Ti_over_IPSEc)
 - [LAB5_DMVPN_Phase1](COMPUTER-NETWORKS/VPNs/LABS/LAB5_DMVPN_Phase1.md)
+- [LAB6_DMVPN_Phase2](COMPUTER-NETWORKS/VPNs/LABS/LAB6_DMVPN_Phase2.md)
 
 
 ## 🐧 Linux
