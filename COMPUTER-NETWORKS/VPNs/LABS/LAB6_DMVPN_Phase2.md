@@ -16,11 +16,20 @@ However, it is crucial to note that **the very first packets will still flow thr
 
 ### 📇 The NHRP Table in Action
 
-<div align="center">
-  <a href="IMAGES/NHRP_Phase2.png" target="_blank">
-    <img src="IMAGES/NHRP_Phase2.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
+Here is what the NHRP table looks like on Spoke R2 after it establishes a direct tunnel with Spoke R3:
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+R2# show ip nhrp
+100.100.100.1/32 via 100.100.100.1
+   Tunnel1 created 02:15:30, never expire 
+   Type: static, Flags: used 
+   NBMA address: 192.168.1.1 
+
+100.100.100.3/32 via 100.100.100.3
+   Tunnel1 created 00:00:45, expire 01:59:14
+   Type: dynamic, Flags: router used 
+   NBMA address: 192.168.3.1 
+</pre>
 
 While building this lab, I encountered several fascinating challenges that perfectly explain how DMVPN works under the hood.
 
