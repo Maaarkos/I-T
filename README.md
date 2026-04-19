@@ -3,8 +3,8 @@
 Based on official Cisco documentation, we are going to build a **FlexVPN Site-to-Site** tunnel. 
 
 <div align="center">
-  <a href="IMAGES/FlexVPN_S2S.png" target="_blank">
-    <img src="IMAGES/FlexVPN_S2S.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/FlexVPN_s2s.png" target="_blank">
+    <img src="IMAGES/FlexVPN_s2s.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
