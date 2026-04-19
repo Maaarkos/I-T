@@ -49,6 +49,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [LAB4_VTI over IPSec](COMPUTER-NETWORKS/VPNs/LABS/LAB4__Ti_over_IPSEc)
 - [LAB5_DMVPN_Phase1](COMPUTER-NETWORKS/VPNs/LABS/LAB5_DMVPN_Phase1.md)
 - [LAB6_DMVPN_Phase2](COMPUTER-NETWORKS/VPNs/LABS/LAB6_DMVPN_Phase2.md)
+- [LAB8_FlexVPN_S2S](COMPUTER-NETWORKS/VPNs/LABS/LAB8_FlexVPN_S2S.md)
 
 
 ## 🐧 Linux
