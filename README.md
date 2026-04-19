@@ -1,3 +1,9 @@
+<div align="center">
+<pre style="background-color: #000000; color: #00ff00; padding: 20px; font-size: 16px; border-radius: 8px; border: 1px solid #444; display: inline-block; text-align: left; line-height: 1.2;">
+____                 _               ___ _____ 
+| __ )  __ _ ___  ___| |             |_ _|_   _|
+|  _ \ / _` / __|/ _ \ |      _       | |  | |  
+| |_) | (_| \__ \  __/_|    _(_)      | |  | |  
 |____/ \__,_|___/\___(_)   (_)       |___| |_|  
 
 [  NETWORK ENGINEERING  ]
@@ -46,3 +52,15 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [LAB8_FlexVPN_S2S](COMPUTER-NETWORKS/VPNs/LABS/LAB8_FlexVPN_S2S.md)
 
 
+
+## 🐧 Linux
+- [Where to find system logs](LINUX/logs.md)
+- [How to check firewal](LINUX/fw.md)
+- [Testing - Ports](LINUX/testing-ports.md)
+
+
+## 🪟 Windows
+- *(Tutaj w przyszłości dodasz linki do Windowsa)*
+
+# 📥 Downloadable LABS-FILES
+- [LABS-FILES](COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
