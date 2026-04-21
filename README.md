@@ -67,4 +67,4 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Compare Config](LINUX/logs.md)
 
 # 📥 Downloadable LABS-FILES
-- [LABS-FILES](COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
+- [LABS-FILES](TROUBLESHOOTING/compare_config.md)
