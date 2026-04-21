@@ -64,7 +64,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 #### 🛠️ Troubleshooting
 
-- [Compare Config](LINUX/logs.md)
+- [Compare Config](TROUBLESHOOTING/compare_config.md)
 
 # 📥 Downloadable LABS-FILES
-- [LABS-FILES](TROUBLESHOOTING/compare_config.md)
+- [LABS-FILES](COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
