@@ -83,6 +83,12 @@ Here is the ultimate "Dependency Tree" of a FlexVPN Hub. Read it from the top (t
 
 ### 🧠 Deep Dive: Explaining the Branches (Top to Bottom)
 
+> **💡 Configuration vs. Explanation Note:**
+> When you actually type the commands into the router, you build this tree from the **roots up** (you create the proposals, policies, and keyrings first, then attach them to the profiles, and finally apply them to the interface). If you tried to configure it top-down, the router would throw an error because the profiles wouldn't exist yet! 
+> However, to make it easier to understand *how* it all logically connects, we will explain the branches below from the **top down** (from the interface down to the roots).
+
+---
+
 #### 1. The Interfaces & The "Cookie Cutter" (`Virtual-Template`)
 We create a `Loopback1` interface with an IP address (e.g., `10.1.1.1`). We do this to lend its IP address "on the fly" to the Virtual Template using the command `ip unnumbered Loopback1`. 
 
