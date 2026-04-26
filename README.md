@@ -51,6 +51,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [LAB6_DMVPN_Phase2](COMPUTER-NETWORKS/VPNs/LABS/LAB6_DMVPN_Phase2.md)
 - [LAB8_FlexVPN_S2S](COMPUTER-NETWORKS/VPNs/LABS/LAB8_FlexVPN_S2S.md)
 - [LAB9_FlexVPN_Hub_Spoke](COMPUTER-NETWORKS/VPNs/LABS/LAB9_FlexVPN_Hub_Spoke.md)
+- [LAB10_FlexVPN_Spoke_to_Spoke](COMPUTER-NETWORKS/VPNs/LABS/LAB10_FlexVPN_Spoke_to_Spoke.md)
 
 
 
