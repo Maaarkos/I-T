@@ -40,6 +40,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Packet Flow](COMPUTER-NETWORKS/VPNs/THEORY/packet_flow.md)
 - [Tailscale, WireGuard](COMPUTER-NETWORKS/VPNs/THEORY/wireguard_tailscale.md)
 - [Cloudflare-Tunnel](COMPUTER-NETWORKS/VPNs/THEORY/cloudflare.md)
+- [SSL vs IPSec RA](COMPUTER-NETWORKS/VPNs/THEORY/SSL_vs_IPSec_RA.md)
 
 
 #### 🛠️ Labs
