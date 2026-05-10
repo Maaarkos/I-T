@@ -42,6 +42,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Cloudflare-Tunnel](COMPUTER-NETWORKS/VPNs/THEORY/cloudflare.md)
 - [SSL vs IPSec RA](COMPUTER-NETWORKS/VPNs/THEORY/SSL_vs_IPSec_RA.md)
 - [split-tunneling-split-dns](COMPUTER-NETWORKS/VPNs/THEORY/split-tunneling-split-dns.md)
+- [get-vpn](COMPUTER-NETWORKS/VPNs/THEORY/get-vpn.md)
 
 
 #### 🛠️ Labs
