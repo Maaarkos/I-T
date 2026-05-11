@@ -23,11 +23,6 @@ Cisco took the IKEv2 standard and built a massive ecosystem around it. Here is w
 
 When we have a large user base for Remote Access VPNs, we don't create local user accounts on the firewall. Instead, we use the **EAP** protocol to connect to a RADIUS server (e.g., Cisco ISE).
 
-<div align="center">
-  <a href="IMAGES/IKEv2_EAP.png" target="_blank">
-    <img src="IMAGES/IKEv2_EAP.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
-  </a>
-</div>
 
 **What is EAP?**
 EAP is not an authentication mechanism itself; it is a universal "envelope". It is usually written with its transport type, for example, **EAP-MSCHAPv2**. 
@@ -41,8 +36,8 @@ EAP is not an authentication mechanism itself; it is a universal "envelope". It 
 
 #### The EAP Authentication Steps
 <div align="center">
-  <a href="IMAGES/EAP_Steps.png" target="_blank">
-    <img src="IMAGES/EAP_Steps.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/eap-steps.png" target="_blank">
+    <img src="IMAGES/eap-steps.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
@@ -59,8 +54,8 @@ After that, the FlexVPN server acts purely as a middleman (a proxy).
 How does the router process an incoming connection?
 
 <div align="center">
-  <a href="IMAGES/FlexVPN_Flow.png" target="_blank">
-    <img src="IMAGES/FlexVPN_Flow.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/flex-proces.png" target="_blank">
+    <img src="IMAGES/flex-proces.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
