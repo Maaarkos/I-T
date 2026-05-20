@@ -12,7 +12,7 @@ Cisco Secure Client (formerly AnyConnect) is no longer just a VPN dialer. It is 
 
 <div align="center">
   <a href="IMAGES/cisco-secure-client.png" target="_blank">
-    <img src="IMAGES/cisco-secure-client.png" style="max-width: none; width: 1000px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+    <img src="IMAGES/cisco-secure-client.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
