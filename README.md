@@ -31,6 +31,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Flash-vs-Bootflash](COMPUTER-NETWORKS/flash-vs-bootflash.md)
 - [Bundle-vs-Install-Mode](COMPUTER-NETWORKS/bundle-vs-install-mode.md)
 - [NAT-FW](COMPUTER-NETWORKS/nat-fw.md)
+- [Cisco-Secure-Client](COMPUTER-NETWORKS/cisco-secure-client.md)
 
 ### 🔐 VPNs & Cryptography
 
