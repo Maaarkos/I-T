@@ -33,6 +33,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [NAT-FW](COMPUTER-NETWORKS/nat-fw.md)
 - [Cisco-Secure-Client](COMPUTER-NETWORKS/cisco-secure-client.md)
 - [Umbrella](COMPUTER-NETWORKS/umbrella.md)
+- [WSA ESA SMA](COMPUTER-NETWORKS/wsa-esa-sma.md)
 
 ### 🔐 VPNs & Cryptography
 
