@@ -1,3 +1,10 @@
+<div align="center">
+  <a href="IMAGES/architecture.png" target="_blank">
+    <img src="IMAGES/architecture.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+
 # 🐳 Containers, Kubernetes & Cloud Networking Architecture
 
 Before we dive into containers, let's briefly touch on **Serverless Applications**. This is a fascinating concept mainly for developers. You can rent "compute" in the cloud to run a script. Under the hood, it is actually a container that spins up only when triggered by an event. The container runs the script and immediately vanishes. Unlike a standard container, this environment is ephemeral, and you only pay for the exact milliseconds it was running (e.g., AWS Lambda, Azure Functions, Google Cloud Functions).
