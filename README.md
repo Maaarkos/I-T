@@ -34,7 +34,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Cisco-Secure-Client](COMPUTER-NETWORKS/cisco-secure-client.md)
 - [Umbrella](COMPUTER-NETWORKS/umbrella.md)
 - [WSA ESA SMA](COMPUTER-NETWORKS/wsa-esa-sma.md)
-- [Cisco-Secure-Workload](COMPUTER-NETWORKS/Cisco-Secure-Workload.md)
+- [Cisco-Secure-Workload](COMPUTER-NETWORKS/cisco-secure-workload.md)
 
 
 
