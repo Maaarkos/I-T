@@ -78,6 +78,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 #### 🛠️ Troubleshooting
 
 - [Compare Config](TROUBLESHOOTING/compare_config.md)
+- [GIT](TROUBLESHOOTING/git.md)
 
 # 📥 Downloadable LABS-FILES
 - [LABS-FILES](COMPUTER-NETWORKS/LABS-FILES/labs-files.md)
