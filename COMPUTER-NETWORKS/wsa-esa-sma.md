@@ -189,3 +189,18 @@ In Cisco architecture, an ESA is essentially an SMTP service that listens for co
 *   **SPF (Sender Policy Framework):** A DNS TXT record where we declare which IP addresses are legally allowed to send emails on behalf of our domain. 
     *   *The Hacker Trick:* A hacker doesn't use Outlook. They open a terminal and type `telnet your_esa_ip 25`. This opens a raw TCP pipe. They type SMTP commands in plain text to spoof your CEO's email. If SPF is enabled, the ESA checks the DNS, sees the hacker's IP is not authorized, and drops the connection!
 *   **DKIM (DomainKeys Identified Mail):** Ensures authenticity and integrity. The ESA generates a Private/Public key pair. It hashes important email headers, encrypts the hash with the Private Key, and attaches it to the email. The Public Key is placed in a global DNS TXT record. The receiving server uses the Public Key to decrypt and verify that the email wasn't tampered with in transit.
+
+### ☁️ Cisco Cloud Email Security (CES) & Advanced Engines
+
+Besides the physical/virtual ESA appliances, Cisco also offers a fully cloud-based solution: **Cisco Cloud Email Security (CES)**. Regardless of whether you use the on-premise ESA or the cloud CES, they both rely on several advanced scanning engines:
+
+*   **CASE (Context Adaptive Scanning Engine):** This is the core scanning engine in Cisco email security. It analyzes hundreds of thousands of email attributes (the context) and correlates them in real-time with Cisco Talos. It assigns a score to every email. Based on this score, it can trigger **Outbreak Filters** to throw suspicious emails into quarantine and rescan them cyclically as new threat intelligence arrives.
+*   **FED (Forged Email Detection):** This is your primary defense against Spear Phishing and **BEC (Business Email Compromise)**—commonly known as the *"CEO Fraud"*. This feature deeply inspects and compares SMTP headers. It checks if the visible `From:` header (which is easily spoofed) matches the hidden `Envelope From:` and the `Reply-To:` headers to catch hackers pretending to be your boss.
+
+### 🛡️ The "Holy Trinity" of Email Authentication (SPF, DKIM, DMARC)
+
+We already discussed SPF and DKIM, but they are not enough on their own. To truly secure a domain, we need the final piece of the puzzle:
+
+*   **DMARC (Domain-based Message Authentication, Reporting, and Conformance):** This is a global email authentication standard based on DNS records. It relies heavily on the results of SPF and DKIM. 
+    *   *How it works:* The domain owner publishes a DMARC TXT record in their public DNS that essentially says: *"If someone sends you an email claiming to be from my domain, but that email fails the SPF or DKIM tests, you must Reject it or throw it into Quarantine (Spam)."*
+    *   *Why it matters:* DMARC is the ultimate protection against domain spoofing. It prevents hackers from impersonating your company's domain when sending phishing emails to your clients or employees.
