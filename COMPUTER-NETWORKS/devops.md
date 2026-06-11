@@ -86,6 +86,8 @@ Let's trace a modern Infrastructure as Code (IaC) scenario. We want to add a new
 
 ### 🛡️ 7. Security Testing in CI/CD Pipelines
 
+Adding security tools couse we can call DevOpsSec
+
 To ensure code and infrastructure are safe before deployment, engineers integrate automated security scanners into the CI/CD pipeline:
 
 *   **Fuzzing (Fuzz Testing):** 
