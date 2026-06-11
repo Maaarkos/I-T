@@ -60,6 +60,15 @@ Once inside Layer 7, Umbrella can perform deep inspection:
 
 ---
 
-### 🔎 Cisco Umbrella Investigate
+### 🔎 Cisco Umbrella Investigate (The Threat Intelligence Engine)
 
-Finally, it is worth mentioning **Cisco Investigate**. Think of it as a "Google Search for Threat Intelligence". It provides access to the massive, global intelligence database gathered by Cisco Talos. Security analysts can type in an IP, domain, or file hash, and receive a rich, detailed history of its reputation, who owns it, and what other malicious infrastructure it is tied to.
+Finally, it is worth mentioning a crucial supporting system: **Cisco Umbrella Investigate**. 
+
+Think of it as a "Google Search for Threat Intelligence". Unlike SIG, Investigate does not actively block traffic. Instead, it provides access to the massive, global intelligence database gathered by Cisco Talos. Security analysts can type in an IP, domain, or file hash, and receive a rich, detailed history of its reputation, who owns it, and what other malicious infrastructure it is tied to.
+
+> **🌍 Real-World Example (How the Ecosystem works together):**
+> Remember our topic about Secure Network Analytics (Stealthwatch)? 
+> 1. Stealthwatch notices an anomaly: your internal server is connecting to a strange, unknown IP address.
+> 2. Stealthwatch automatically sends an API query to **Umbrella Investigate** asking: *"What do you know about this IP?"*.
+> 3. Investigate replies: *"That IP is a known Command & Control (C&C) server operated by a Russian hacking group."*
+> 4. Armed with this intelligence, you (or an automated script) configure **Umbrella SIG** to actively block all future traffic to that IP address across your entire organization.
