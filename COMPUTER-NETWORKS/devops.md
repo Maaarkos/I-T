@@ -68,6 +68,14 @@ The ultimate IT tool that physically realizes these "Three Ways" is the **CI/CD 
     If the tests pass successfully, the system automatically deploys the code. For example, it pushes the new configuration to AWS, Cisco FMC, etc.
     *(Note: This provides full visibility. Every pipeline execution is logged, so we always know exactly who pushed which change).*
 
+Below you can see stages of the Pipeline
+
+<div align="center">
+  <a href="IMAGES/CI-CD.png" target="_blank">
+    <img src="IMAGES/CI-CD.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
 #### 🌐 Real-World NetDevOps Scenario: Automating Cisco FTD
 
 Let's trace a modern Infrastructure as Code (IaC) scenario. We want to add a new firewall rule to our FTDs (managed by FMC). Instead of clicking through the GUI, we use CI/CD.
