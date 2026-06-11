@@ -58,8 +58,8 @@ An OCI image also contains **Metadata** (the instruction manual for the engine):
 ### 🛠️ Essential Docker Commands
 
 <div align="center">
-  <a href="IMAGES/docker-images.png.png" target="_blank">
-    <img src="IMAGES/docker-images.png.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/docker-images.png" target="_blank">
+    <img src="IMAGES/docker-images.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
