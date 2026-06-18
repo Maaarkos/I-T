@@ -37,6 +37,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Cisco-Secure-Workload](COMPUTER-NETWORKS/cisco-secure-workload.md)
 - [DevOps](COMPUTER-NETWORKS/devops.md)
 - [Wireless](COMPUTER-NETWORKS/wireless.md)
+- [QoS](COMPUTER-NETWORKS/QoS.md)
 
 
 
