@@ -115,3 +115,19 @@ In the cybersecurity industry, these acronyms are often thrown around by salespe
     > 🎥 *Metaphor:* The CCTV cameras and the SWAT team inside the building.
 
 *(Note: Sometimes you will see the acronym **ETDR** (Endpoint Threat Detection and Response). Don't let it confuse you—it is exactly the same thing as EDR).*
+
+---
+
+### 📡 Deep Dive: NVM & Trusted Network Detection (TND)
+
+We briefly mentioned the **NVM (Network Visibility Module)** earlier, but its offline capabilities are worth a deeper look. 
+
+NVM continuously collects rich telemetry about what the user is doing, which IP addresses they are connecting to, and which processes are generating that traffic. But what happens if the user is working offline or on a public Wi-Fi without an active VPN? 
+NVM simply caches (saves) all these logs locally on the laptop's hard drive.
+
+This is where **TND (Trusted Network Detection)** steps in to save the day:
+*   TND constantly monitors the laptop's network environment (checking specific DNS suffixes, beacon servers, etc.).
+*   The moment TND detects that the laptop has re-entered a "Trusted Network" (e.g., the user walked into the corporate office, or successfully established a VPN tunnel), it acts as a trigger.
+*   It immediately tells NVM: *"We are safe now, flush the cache!"* NVM then securely transmits all the saved logs to the corporate NetFlow collector (like Cisco Secure Network Analytics / Stealthwatch). 
+
+Thanks to this synergy, security teams have a 100% uninterrupted timeline of the endpoint's network activity, even when the device was disconnected from the corporate grid!
