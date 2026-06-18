@@ -36,6 +36,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [WSA ESA SMA](COMPUTER-NETWORKS/wsa-esa-sma.md)
 - [Cisco-Secure-Workload](COMPUTER-NETWORKS/cisco-secure-workload.md)
 - [DevOps](COMPUTER-NETWORKS/devops.md)
+- [Wireless](COMPUTER-NETWORKS/wireless.md)
 
 
 
