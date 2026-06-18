@@ -38,7 +38,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [DevOps](COMPUTER-NETWORKS/devops.md)
 - [Wireless](COMPUTER-NETWORKS/wireless.md)
 - [QoS](COMPUTER-NETWORKS/QoS.md)
-- [Cisco ETA & CTA](COMPUTER-NETWORKS/ETA-CTA.md)
+- [Cisco ETA & CTA](COMPUTER-NETWORKS/eta-cta.md)
 
 
 
