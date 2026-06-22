@@ -41,7 +41,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Microsegmentation](COMPUTER-NETWORKS/microsegmentation.md)
 - [Cisco ETA & CTA](COMPUTER-NETWORKS/eta-cta.md)
 - [Cisco Secure Network Analytics & Netflow previosuly Stealthwatch](COMPUTER-NETWORKS/stealthwatch.md)
-- [802.1X](COMPUTER-NETWORKS/802.1X.md)- [802.1X](COMPUTER-NETWORKS/802.1X.md)
+- [802.1X](COMPUTER-NETWORKS/802.1X.md)
 - [Radius vs TACAS +](COMPUTER-NETWORKS/radius-tacas.md)
 
 ### 🔐 VPNs & Cryptography
