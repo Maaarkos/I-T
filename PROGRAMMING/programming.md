@@ -55,3 +55,11 @@ In our Python script, we need a "translator" to convert raw text into a structur
 </div> 
 
 *Notice:* We do not need to use `pip install json` to download this library. The `json` library is built directly into the core Python installation! All we have to do is `import json` at the top of our script, and the translator is ready to work.
+
+Below you can see imprtant codes in terms of HTTP status
+
+<div align="center">
+  <a href="IMAGES/https-status.png" target="_blank">
+    <img src="IMAGES/https-status.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div> 
