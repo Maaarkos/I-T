@@ -60,7 +60,7 @@ The configuration hierarchy flows like this:
 
 #### 🔬 Outbreak Control (The Blacklists)
 *   **Custom Detection (Simple):** Blocking specific file hashes (SHA-256).
-*   **Custom Detection (Advanced):** Acts more like a traditional AV using the ClamAV engine. This is crucial because malware creators use *polymorphism* (slightly altering the code to change the main SHA-256 hash). Advanced detection looks for constant, malicious patterns *inside* the file.
+*   **Custom Detection (Advanced):** Acts more like a traditional AV using the ClamAV engine. This is crucial because malware creators use *polymorphism* (slightly altering the code to change the main SHA-256 hash). Advanced detection looks for constant, malicious patterns *inside* the file.  Detections in AMP use the ClamAV engine, which allows you to create logical signatures (AND/OR) and icon signatures (detect fake .exe files pretending to be PDFs)
 *   **Android:** Due to mobile OS specifics, this is a separate tab. You upload `.apk` files or select from inventory. *Note:* You cannot actively block malware installation on Android; you can only send alerts about threats or unwanted apps.
 *   **Application Control:** Whitelisting or Blacklisting apps by hash.
 *   **Network (IP Block/Allow):** Combined with Device Flow Correlation (DFC), this flags and blocks communication to specific malicious IPs or ports.
