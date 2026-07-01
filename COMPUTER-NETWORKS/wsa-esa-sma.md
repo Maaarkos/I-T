@@ -222,4 +222,4 @@ However, the actual "Letter inside the envelope" (the `From:` header that the us
 This is exactly where DMARC steps in to save the day.
 DMARC says: *"Wait a minute. SPF passed the test for the domain `hacker.com` (the envelope), but the accountant is seeing the domain `yourcompany.com` (the letter). These two domains do not match (Lack of Alignment)! This is a fraud, drop the email!"*
 
-> **💡 Summary:** DMARC is a global standard that forces the "Envelope" (checked by SPF) and the "Letter" (seen by the user) to align perfectly. If they don't, DMARC instructs the receiving server to Reject or Quarantine the email, completely killing domain spoofing attacks.
+> **💡 Summary:** DMARC is a global standard that forces the "Envelope" (checked by SPF) and the "Letter" (seen by the user) to align perfectly. If they don't, DMARC instructs the receiving server to Reject or Quarantine the email, completely killing domain spoofing attacks..
