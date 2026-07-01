@@ -190,17 +190,36 @@ In Cisco architecture, an ESA is essentially an SMTP service that listens for co
     *   *The Hacker Trick:* A hacker doesn't use Outlook. They open a terminal and type `telnet your_esa_ip 25`. This opens a raw TCP pipe. They type SMTP commands in plain text to spoof your CEO's email. If SPF is enabled, the ESA checks the DNS, sees the hacker's IP is not authorized, and drops the connection!
 *   **DKIM (DomainKeys Identified Mail):** Ensures authenticity and integrity. The ESA generates a Private/Public key pair. It hashes important email headers, encrypts the hash with the Private Key, and attaches it to the email. The Public Key is placed in a global DNS TXT record. The receiving server uses the Public Key to decrypt and verify that the email wasn't tampered with in transit.
 
+---
+
 ### ☁️ Cisco Cloud Email Security (CES) & Advanced Engines
 
 Besides the physical/virtual ESA appliances, Cisco also offers a fully cloud-based solution: **Cisco Cloud Email Security (CES)**. Regardless of whether you use the on-premise ESA or the cloud CES, they both rely on several advanced scanning engines:
 
 *   **CASE (Context Adaptive Scanning Engine):** This is the core scanning engine in Cisco email security. It analyzes hundreds of thousands of email attributes (the context) and correlates them in real-time with Cisco Talos. It assigns a score to every email. Based on this score, it can trigger **Outbreak Filters** to throw suspicious emails into quarantine and rescan them cyclically as new threat intelligence arrives.
-*   **FED (Forged Email Detection):** This is your primary defense against Spear Phishing and **BEC (Business Email Compromise)**—commonly known as the *"CEO Fraud"*. This feature deeply inspects and compares SMTP headers. It checks if the visible `From:` header (which is easily spoofed) matches the hidden `Envelope From:` and the `Reply-To:` headers to catch hackers pretending to be your boss.
+*   **FED (Forged Email Detection):** This is your primary defense against Spear Phishing and **BEC (Business Email Compromise)**—commonly known as the *"CEO Fraud"*. This feature deeply inspects and compares SMTP headers. It checks if the visible `From:` header (which is easily spoofed) matches the hidden `Envelope From:` and the `Reply-To:` headers.
+    > **⚠️ The Display Name Trick (Why FED is crucial):** 
+    > Even if DMARC passes successfully, a hacker can still manipulate the "Display Name" (e.g., changing it to "CEO John Smith"). DMARC does not check the Display Name! Outlook will only show this fake name, and Karen from Accounting might fall for it. FED specifically looks for these Display Name anomalies to stop this attack.
+
+---
 
 ### 🛡️ The "Holy Trinity" of Email Authentication (SPF, DKIM, DMARC)
 
-We already discussed SPF and DKIM, but they are not enough on their own. To truly secure a domain, we need the final piece of the puzzle:
+#### Why is SPF alone not enough?
+SPF only checks if there is an IP match for the domain written on the "Envelope" (the `MAIL FROM` / `Envelope Sender` command during the SMTP handshake). 
+However, the actual "Letter inside the envelope" (the `From:` header that the user actually sees in Outlook) can be easily spoofed. SPF DOES NOT check the letter inside!
 
-*   **DMARC (Domain-based Message Authentication, Reporting, and Conformance):** This is a global email authentication standard based on DNS records. It relies heavily on the results of SPF and DKIM. 
-    *   *How it works:* The domain owner publishes a DMARC TXT record in their public DNS that essentially says: *"If someone sends you an email claiming to be from my domain, but that email fails the SPF or DKIM tests, you must Reject it or throw it into Quarantine (Spam)."*
-    *   *Why it matters:* DMARC is the ultimate protection against domain spoofing. It prevents hackers from impersonating your company's domain when sending phishing emails to your clients or employees.
+**How a hacker bypasses SPF:**
+1. The hacker buys a cheap domain `hacker.com` and sets up a 100% valid SPF record for it (assigning their own IP).
+2. The hacker connects to your server and sends an email.
+3. On the "Envelope" (`MAIL FROM`), the hacker writes: `spam@hacker.com`.
+4. In the "Letter inside" (`From:` header), the hacker writes: `ceo@yourcompany.com`.
+5. Your Cisco ESA receives the email. It looks at the envelope (`hacker.com`), queries DNS for `hacker.com`, and checks the hacker's IP.
+6. **SPF Result: PASS!** The hacker's IP matches `hacker.com`. The ESA says: *"Everything is legal, let it through."*
+7. The email lands in the accountant's Outlook. Outlook throws away the "envelope" and only displays the "letter inside": *From: ceo@yourcompany.com*.
+
+#### Enter DMARC (The Hero in White)
+This is exactly where DMARC steps in to save the day.
+DMARC says: *"Wait a minute. SPF passed the test for the domain `hacker.com` (the envelope), but the accountant is seeing the domain `yourcompany.com` (the letter). These two domains do not match (Lack of Alignment)! This is a fraud, drop the email!"*
+
+> **💡 Summary:** DMARC is a global standard that forces the "Envelope" (checked by SPF) and the "Letter" (seen by the user) to align perfectly. If they don't, DMARC instructs the receiving server to Reject or Quarantine the email, completely killing domain spoofing attacks.
