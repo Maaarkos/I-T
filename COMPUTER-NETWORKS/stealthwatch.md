@@ -41,7 +41,7 @@ Cisco acquired a company called Lancope and evolved their product into what is n
 *   **SMC (Stealthwatch Management Console):** The brain. It collects all the processed data and displays it on beautiful, actionable dashboards for analysts.
 *   **FlowCollector:** The workhorse. It receives the raw NetFlow from the network, deduplicates it, and stitches it together. It has a very basic web interface just for setting its IP, NTP, etc.
 *   **Flow Sensor:** Modern Cisco devices have NetFlow generation built-in. However, if you have legacy switches, or if you want extremely deep, high-fidelity telemetry (like ETA/SPLT), you deploy a dedicated Cisco Stealthwatch Sensor appliance to listen to the traffic.
-*   **Flow Replicator (UDP Director):** An intelligent splitter. It is a highly efficient, dedicated machine. It receives a single massive stream of NetFlow data and duplicates/forwards it to multiple different systems (e.g., one copy to Stealthwatch, one copy to Splunk, one copy to SolarWinds).
+*   **Flow Replicator (UDP Director):** An intelligent splitter. It is a highly efficient, dedicated machine. It receives a single massive stream of NetFlow data and duplicates/forwards it to multiple different systems (e.g., one copy to Stealthwatch, one copy to Splunk, one copy to SolarWinds).It is worth to add what is difference between SPAN [ port Mirroring ] and Replicator. Replictor accepts only UDP traffic addressed through IP to him unlike SPAN which accepts raw traffic.
 
 ---
 
@@ -53,6 +53,13 @@ The requirement here is to deploy a **Stealthwatch Cloud Sensor** inside our loc
 *The Benefit:* As an engineer, you don't have to worry about maintaining massive local databases or hardware. You just log into the cloud dashboard and have a ready-to-use solution.
 
 As seen in the architecture diagram, this sensor can collect data in two ways:
+
+<div align="center">
+  <a href="IMAGES/netflow-cloud.png" target="_blank">
+    <img src="IMAGES/netflow-cloud.png" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
 1.  **Direct Traffic Inspection:** By connecting it to a switch port configured with SPAN (Port Mirroring) or a physical TAP device.
 2.  **NetFlow/IPFIX Ingestion:** Network devices that already generate NetFlow simply send their logs directly to our local cloud sensor.
 
