@@ -71,3 +71,31 @@ Faza 4: Bezpieczna komunikacja (Szyfrowanie)
 1. Skoro Marek już ufa Jarkowi, wyciąga z jego certyfikatu Klucz Publiczny Jarka.
 2. Marek szyfruje tajną wiadomość (np. numer karty kredytowej) Kluczem Publicznym Jarka i wysyła w sieć.
 3. Nawet jeśli haker to przechwyci, nic nie przeczyta. Tylko Jarek, posiadający swój Klucz Prywatny Jarka, może tę wiadomość odszyfrować.
+
+
+
+OPERACJA 1: Tworzenie Certyfikatu (Dzieje się w Urzędzie CA)
+
+Cel: Urząd CA musi stworzyć dokument, którego nikt nie podrobi.
+
+
+Co mamy na stole: Plik tekstowy, w którym jest napisane: Imię: Jarek, IP: 10.0.0.1, Klucz Publiczny Jarka: XYZ123.
+Co robi CA: Algorytm CA wylicza z tego całego tekstu krótki hash (np. SHA-256).
+CO DOKŁADNIE SZYFRUJEMY: Urząd CA bierze ten wyliczony HASH i szyfruje go swoim Kluczem Prywatnym CA.
+Wynik: Ten zaszyfrowany hash to jest właśnie "Podpis CA". Urząd dokleja ten podpis na sam dół pliku tekstowego. Gotowy plik to Certyfikat.
+
+Wniosek z Operacji 1: Kluczem Prywatnym CA szyfrujemy tylko i wyłącznie hash z danych Jarka, żeby udowodnić, że nikt tych danych nie zmienił po wydaniu certyfikatu.
+
+
+
+OPERACJA 2: Nawiązywanie Połączenia (Dzieje się w sieci między Markiem a Jarkiem)
+
+Cel: Jarek musi udowodnić Markowi, że jest prawowitym właścicielem certyfikatu, który właśnie mu wysłał.
+
+
+Co mamy na stole: Marek odebrał certyfikat Jarka, sprawdził podpis CA i wyciągnął z niego Klucz Publiczny Jarka. Teraz Marek chce mieć pewność, że po drugiej stronie kabla naprawdę siedzi Jarek.
+Co robi Marek: Wysyła do Jarka losową, unikalną paczkę danych (tzw. Challenge).
+CO DOKŁADNIE SZYFRUJEMY: Jarek bierze tę paczkę danych (lub wylicza z niej hash) i szyfruje ją swoim Kluczem Prywatnym Jarka.
+Wynik: Jarek odsyła ten zaszyfrowany kawałek danych do Marka. Marek używa Klucza Publicznego Jarka (z certyfikatu), żeby to odszyfrować. Jeśli się uda – tożsamość Jarka jest w 100% potwierdzona.
+
+Wniosek z Operacji 2: Kluczem Prywatnym Jarka szyfrujemy dane negocjacyjne (Challenge) podczas zestawiania tunelu (np. IPsec/TLS), żeby udowodnić, że Jarek posiada klucz prywatny pasujący do certyfikatu.
