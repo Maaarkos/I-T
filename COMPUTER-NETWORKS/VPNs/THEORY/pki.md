@@ -2,46 +2,6 @@
 
 To truly understand how Public Key Infrastructure (PKI), Certificates, and Digital Signatures work, let's break it down into a simple story involving two users (Jarek and Marek) and a trusted third party (the Certificate Authority - CA).
 
-### 🗺️ The PKI Workflow Diagram
-
-<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 13px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
-[ PHASE 1 & 2: GETTING THE CERTIFICATE ]
-
-  [ JAREK'S SERVER ]                                 [ CERTIFICATE AUTHORITY (CA) ]
-  1. Generates Key Pair:                             (e.g., DigiCert, Let's Encrypt)
-     - Private Key (Hidden)
-     - Public Key (Shared)
-                                                           3. CA verifies Jarek.
-  2. Creates CSR (Certificate Signing Request)             4. CA creates the Certificate.
-     [ "I am Jarek, IP: 1.1.1.1, My Public Key" ]  ====>   5. CA hashes the Cert and ENCRYPTS the hash
-                                                              with the **CA's Private Key** (The Signature).
-
-     [ JAREK'S NEW CERTIFICATE ]                   <====   6. CA sends the signed Cert back to Jarek.
-     (Plain text + CA's Digital Signature)
-
-
-=========================================================================================================
-[ PHASE 3 & 4: VERIFICATION AND ENCRYPTION ]
-
-  [ MAREK'S PC ]                                     [ JAREK'S SERVER ]
-  (Has the CA's Public Key built into Windows)
-
-  1. Marek connects to Jarek.                      ====>
-                                                   <====   2. Jarek sends his Signed Certificate.
-
-  3. Marek uses the **CA's Public Key** to decrypt
-     the signature on Jarek's Cert. 
-     *If it decrypts, it MUST have been signed 
-     by the CA! Identity is verified!*
-
-  4. Marek extracts **Jarek's Public Key** from 
-     the Certificate.
-
-  5. Marek encrypts his Credit Card using          ====>   6. Jarek decrypts the Credit Card using
-     **Jarek's Public Key**.                                  his own **Jarek's Private Key**.
-</pre>
-
----
 
 ### 📖 The Story (Step-by-Step)
 
