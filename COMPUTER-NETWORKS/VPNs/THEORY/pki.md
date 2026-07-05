@@ -35,3 +35,39 @@ To truly understand how Public Key Infrastructure (PKI), Certificates, and Digit
 > *   You want to **ENCRYPT** data for someone? ➡️ You use **THEIR Public Key**.
 > *   You want to **SIGN** something (prove it's you)? ➡️ You use **YOUR Private Key**.
 > *   You want to **VERIFY** someone's signature? ➡️ You use **THEIR Public Key**.
+
+
+Polski
+
+historia Marka i Jarka (Krok po kroku na GitHuba)
+
+Faza 1: Przygotowania (U Jarka w domu)
+
+
+1. Jarek chce postawić bezpieczny serwer. Generuje u siebie parę kluczy: Prywatny (chowa głęboko na dysku) i Publiczny.
+2. Jarek tworzy plik CSR (Certificate Signing Request). Wrzuca do niego swoje imię, adres IP domeny i swój Klucz Publiczny.
+3. Jarek wysyła ten plik CSR do Urzędu CA (i płaci im kasę, jeśli to publiczne CA, np. DigiCert).
+
+Faza 2: Praca Urzędu CA (Wydanie certyfikatu)
+
+
+1. Urząd CA weryfikuje, czy Jarek to naprawdę Jarek (np. każe mu kliknąć w link wysłany na maila domeny).
+2. Urząd CA bierze dane Jarka z CSR i tworzy z nich jawny dokument tekstowy – Certyfikat.
+3. TWORZENIE PODPISU (Najważniejsze!): Urząd CA wylicza hash (skrót) z tego certyfikatu Jarka. Następnie CA bierze swój własny, super-tajny Klucz Prywatny CA i "szyfruje" nim ten hash. Ten zaszyfrowany hash to właśnie Podpis Cyfrowy (Digital Signature).
+4. CA dokleja ten Podpis na sam dół certyfikatu Jarka i odsyła mu gotowy plik.
+
+Faza 3: Weryfikacja (Marek łączy się z Jarkiem)
+
+
+1. Marek wchodzi na stronę Jarka. Jarek wysyła Markowi swój Certyfikat (jawny tekst + podpis CA na dole).
+2. Marek musi sprawdzić, czy ten certyfikat nie jest podrobiony.
+3. Tak jak świetnie napisałeś: Marek ma w swoim Windowsie wbudowany Certyfikat Root CA (który zawiera Klucz Publiczny CA).
+4. Marek bierze ten Klucz Publiczny CA ze swojego systemu i używa go do odszyfrowania podpisu na certyfikacie Jarka.
+5. Jeśli podpis da się odszyfrować kluczem publicznym CA, to Marek ma 100% matematycznej pewności, że ten certyfikat musiał zostać podpisany Kluczem Prywatnym CA (bo tylko te dwa klucze do siebie pasują). Marek porównuje hashe. Zgadza się! Tożsamość Jarka jest potwierdzona.
+
+Faza 4: Bezpieczna komunikacja (Szyfrowanie)
+
+
+1. Skoro Marek już ufa Jarkowi, wyciąga z jego certyfikatu Klucz Publiczny Jarka.
+2. Marek szyfruje tajną wiadomość (np. numer karty kredytowej) Kluczem Publicznym Jarka i wysyła w sieć.
+3. Nawet jeśli haker to przechwyci, nic nie przeczyta. Tylko Jarek, posiadający swój Klucz Prywatny Jarka, może tę wiadomość odszyfrować.
