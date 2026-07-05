@@ -56,6 +56,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [split-tunneling-split-dns](COMPUTER-NETWORKS/VPNs/THEORY/split-tunneling-split-dns.md)
 - [get-vpn](COMPUTER-NETWORKS/VPNs/THEORY/get-vpn.md)
 - [Flex-VPN](COMPUTER-NETWORKS/VPNs/THEORY/flex-vpn.md)
+- [PKI](COMPUTER-NETWORKS/VPNs/THEORY/pki.md)
 
 
 #### 🛠️ Labs
