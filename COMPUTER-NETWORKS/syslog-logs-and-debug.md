@@ -8,8 +8,8 @@
 Syslog operates on port UDP 514 to sent event notification message across IP networks to event message collectors, as show in the figure
 
 <div align="center">
-  <a href="IMAGES/syslog-1.png" target="_blank">
-    <img src="IMAGES/syslog-1.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  <a href="IMAGES/syslog-architecture.png" target="_blank">
+    <img src="IMAGES/syslog-architecture.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
 
