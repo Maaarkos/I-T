@@ -1,3 +1,20 @@
+<div align="center">
+  <a href="IMAGES/syslog.png" target="_blank">
+    <img src="IMAGES/syslog.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+
+Syslog operates on port UDP 514 to sent event notification message across IP networks to event message collectors, as show in the figure
+
+<div align="center">
+  <a href="IMAGES/syslog-1.png" target="_blank">
+    <img src="IMAGES/syslog-1.png" style="max-width: none; width: 400px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+Dół do poprawy z tym wyjasnieniem
+
 # 🚰 Logging vs. Debugging: The Plumbing Analogy
 
 In Cisco networking, it is crucial to understand the fundamental difference between **Logging** and **Debugging**. To visualize this, imagine a plumbing network with a water pump, a main valve, and several faucets.
