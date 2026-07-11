@@ -11,7 +11,7 @@ There are 3 main versions of the SNMP protocol:
 
 ---
 
-### 🏛️ SNMP Architecture
+### 🏛️ The 3 Pillars of SNMP Architecture
 
 <div align="center">
   <a href="IMAGES/snmp.png" target="_blank">
@@ -25,23 +25,23 @@ There are 3 main versions of the SNMP protocol:
   </a>
 </div>
 
-The architecture relies on two main components:
-1.  **Agents:** We activate them on routers, switches, servers, or Cisco firewalls. They simply have a built-in SNMP module that we enable.
-2.  **SNMP Manager (NMS):** The monitoring server, for example, PRTG or Zabbix.
+The SNMP architecture consists of three main elements:
 
----
+1.  **SNMP Manager:** The central monitoring server (e.g., PRTG or Zabbix) that collects and displays the data.
+2.  **SNMP Agent:** The software module activated on the network devices (routers, switches, servers, or firewalls).
+3.  **MIB (Management Information Base):** The virtual database that acts as a shared dictionary between the Manager and the Agent.
 
-### 🗂️ MIB Database & OIDs
+#### 🗂️ Deep Dive: MIB and OID
 
-Both the Agents and the SNMP Manager contain a **MIB (Management Information Base)**. It acts as a virtual database. 
-**OID (Object Identifier)** - is a long string of numbers (e.g., `1.3.6.1.4.1.9...`) that serves as an exact address for specific information in the MIB database. The server sends an OID to ask for a specific metric.
+The MIB is the entire database (structured like a tree). Inside the MIB, we have **OIDs (Object Identifiers)**. 
+An OID is a long string of numbers (e.g., `1.3.6.1.4.1.9...`) that serves as an exact address for a specific piece of information inside the MIB. The SNMP Manager sends an OID to ask for a specific metric.
 
 **The MIB on the Agent (e.g., on a switch):**
 This is a "live" database built into the operating system. Physical values are recorded here in real-time. The agent knows that under a specific OID number (e.g., `1.3.6.1.2.1.2.2.1.8`), it holds the current status of the `GigabitEthernet0/1` port.
 
-**The MIB on the SNMP Manager (Monitoring server, e.g., PRTG / Zabbix):**
+**The MIB on the SNMP Manager (e.g., PRTG / Zabbix):**
 Here, MIBs are simply text files (templates / dictionaries) that you upload to the system. 
-*Why does the NMS need this file?* When the NMS queries the router, the router only sends back raw numbers: *"The value for 1.3.6.1.2.1.2.2.1.8 is 1"*. The NMS is dumb. It doesn't know what that means. So, it looks into the uploaded MIB file (the dictionary) and translates it into human language: *"Aha! This long string of digits means 'ifOperStatus', and the value '1' means 'Up'. So the port is working!"*.
+*Why does the Manager need this file?* When the SNMP Manager queries the router, the router only sends back raw numbers: *"The value for 1.3.6.1.2.1.2.2.1.8 is 1"*. The Manager is dumb. It doesn't know what that means. So, it looks into the uploaded MIB file (the dictionary) and translates it into human language: *"Aha! This long string of digits means 'ifOperStatus', and the value '1' means 'Up'. So the port is working!"*.
 
 ---
 
