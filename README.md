@@ -43,7 +43,7 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [Cisco Secure Network Analytics & Netflow previosuly Stealthwatch](COMPUTER-NETWORKS/stealthwatch.md)
 - [802.1X](COMPUTER-NETWORKS/802.1X.md)
 - [Radius vs TACAS +](COMPUTER-NETWORKS/radius-tacas.md)
-- [SNMP](COMPUTER-NETWORKS/snmp.md)
+- [SNMP](COMPUTER-NETWORKS/SNMP.md)
 
 ### 🔐 VPNs & Cryptography
 
