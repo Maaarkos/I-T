@@ -51,3 +51,58 @@ In the 1990s, the Smurf attack was devastating because many end devices had publ
 
 Today, thanks to the widespread use of **NAT** (hiding PCs behind a single public IP) and the `no ip directed-broadcast` command being the default, this attack is mostly a relic of the past on the global internet. 
 However, a Smurf attack can still be highly dangerous if executed by a malicious insider from *within* a Local Area Network (LAN)!
+
+# 💧 Teardrop Attack: IP Fragmentation Exploit
+
+The **Teardrop Attack** is another classic Denial of Service (DoS) attack. However, unlike the Smurf attack (which chokes the network bandwidth), Teardrop attacks the victim's **RAM and CPU** by exploiting the IPv4 packet fragmentation mechanism.
+
+Let's explain this using a simple, real-world analogy.
+
+### 📚 1. How Normal Fragmentation Works
+
+Imagine you want to send a 300-page book to someone, but the mailbox (the network MTU) can only fit 100 pages at a time. 
+You divide the book into 3 packages (fragments) and write an **Offset** on each package so the receiver knows exactly how to glue them back together:
+
+*   **Package 1:** Pages 1 - 100
+*   **Package 2:** Pages 101 - 200
+*   **Package 3:** Pages 201 - 300
+
+The receiver gets the packages, puts them in order, and reconstructs the whole book perfectly.
+
+---
+
+### 😈 2. How the Teardrop Attack Works
+
+A hacker intentionally manipulates these Offset numbers in the IP header so that the packages overlap (**overlapping fragments**). 
+They send the packages like this:
+
+*   **Package 1:** Pages 1 - 100
+*   **Package 2:** Pages 50 - 150 *(Wait, pages 50-100 were already in the first package!)*
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 13px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
+[ NORMAL FRAGMENTATION ]
+[---- Pkt 1 ----][---- Pkt 2 ----][---- Pkt 3 ----]
+0              100              200              300
+
+[ TEARDROP ATTACK (Overlapping Offsets) ]
+[---- Pkt 1 ----]
+       [---- Pkt 2 ----]
+              [---- Pkt 3 ----]
+</pre>
+
+### 💥 3. The Effect on the Victim
+
+When the victim's operating system (historically, older systems like Windows 95/98 or old Linux kernels) receives these packets, it tries to reassemble them in its RAM. 
+
+It sees that the data overlaps, the math doesn't add up, and it panics. This causes a memory allocation error (kernel panic), and the entire operating system crashes, resulting in the infamous **Blue Screen of Death (BSOD)**.
+
+---
+
+### 🛡️ Mitigation: How do we defend against it?
+
+Today, modern operating systems have patched this vulnerability and are immune to it. However, it remains a highly relevant topic for security exams and network architecture.
+
+To protect the entire network from fragmentation-based attacks (like Teardrop), modern firewalls (e.g., Cisco Secure Firewall / FTD) use a feature called **Virtual Reassembly (VFR)**.
+
+**How VFR works:**
+The firewall intercepts the fragmented packets and holds them in its own memory. It tries to reassemble them "in a sandbox". If the firewall sees that a hacker is cheating with overlapping offsets, it immediately drops the traffic before it ever reaches the target server.
