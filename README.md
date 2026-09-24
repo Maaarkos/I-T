@@ -76,10 +76,16 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 
 ## 🐧 Linux
+
 - [Where to find system logs](LINUX/logs.md)
 - [How to check firewal](LINUX/fw.md)
 - [Testing - Ports](LINUX/testing-ports.md)
 - [Containers](LINUX/containers.md)
+
+## 🐧 FPR
+
+- [FPR](FPR/Initial.md)
+- [FPR](FPR/Verify Installed Software.md)
 
 
 ## 🪟 Windows
