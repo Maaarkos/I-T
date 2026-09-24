@@ -87,6 +87,10 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 - [FPR - initial](FPR/Initial.md)
 - [FPR - verify Software](FPR/VerifyInstalledSoftware.md)
 
+## 🐧 FMC
+
+- [FMC - initial](FMC/Initial.md)
+- [FMC - change_password](FMC/changepasswd.md)
 
 ## 🪟 Windows
 - *(Tutaj w przyszłości dodasz linki do Windowsa)*
