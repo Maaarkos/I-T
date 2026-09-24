@@ -1,6 +1,6 @@
 # 🎛️ Initial Configuration of FMC (Firepower Management Center)
 
-Before you can manage your Firepower devices, you must perform the initial setup (Bootstrap) of the FMC itself. 
+Initial configuration
 
 <div align="center">
   <a href="IMAGES/fmcrear.jpg" target="_blank">
