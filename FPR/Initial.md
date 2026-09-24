@@ -20,3 +20,32 @@ During the CLI bootstrap wizard, you will be prompted to enter basic network set
     <img src="IMAGES/bootstrap.jpg" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
   </a>
 </div>
+
+---
+
+### 🔍 Verifying and Modifying Network Settings
+
+To verify the correctness of the network data you entered during the bootstrap process (such as IP address, Gateway, and DNS), you can use the `show network` command in the CLI.
+
+<div align="center">
+  <a href="IMAGES/show_network.jpg" target="_blank">
+    <img src="IMAGES/show_network.jpg" style="max-width: none; width: 600px;" title="Kliknij, aby otworzyć w pełnym rozmiarze">
+  </a>
+</div>
+
+If you made a mistake or simply need to change the Management IP address later, you can correct it manually using the following command format:
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+> configure network ipv4 manual 10.62.184.59 255.255.255.0 10.62.184.1
+</pre>
+*(Syntax: `configure network ipv4 manual <IP_ADDRESS> <SUBNET_MASK> <GATEWAY>`)*
+
+#### Securing GUI Management Access (HTTPS ACL)
+By default, the firewall might restrict who can access its web interface FDM. You must define which IP addresses or subnets are allowed to access the HTTPS management portal.
+
+To allow access from anywhere (for initial lab setup or before tightening security), you can use the following command:
+
+<pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2;">
+> configure https-access-list 0.0.0.0/0
+</pre>
+*(Note: In a production environment, you should replace `0.0.0.0/0` with your specific Management VLAN or Admin PC subnet to ensure secure access).*
