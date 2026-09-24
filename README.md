@@ -84,8 +84,8 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 ## 🐧 FPR
 
-- [FPR](FPR/Initial.md)
-- [FPR](FPR/Verify Installed Software.md)
+- [FPR - initial](FPR/Initial.md)
+- [FPR - verify Software](FPR/Verify Installed Software.md)
 
 
 ## 🪟 Windows
