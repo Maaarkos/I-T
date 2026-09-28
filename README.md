@@ -86,9 +86,9 @@ Welcome to my personal IT documentation and troubleshooting notes. In this Knowl
 
 - [FPR - initial](FPR/Initial.md)
 - [FPR - verify Software](FPR/VerifyInstalledSoftware.md)
-- [FTD - ntpq](FPR/ntpq.md)
+- [FPR - ntpq](FPR/ntpq.md)
 - [FTD - HA](FPR/ha.md)
-
+- [FTD - show interface ip brief](FPR/brief.md)
 
 ## 🐧 FMC
 
