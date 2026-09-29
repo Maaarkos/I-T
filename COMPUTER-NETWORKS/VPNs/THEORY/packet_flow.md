@@ -5,7 +5,7 @@ Burn this mental map into your memory before taking the CCNP SCOR exam. Understa
 ### 🗺️ The Golden Path (Mental Map)
 
 <pre style="background-color: #000000; color: #00ff00; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #444; line-height: 1.2; overflow-x: auto;">
-[1. INGRESS] -> [2. UN-NAT] -> [3. ROUTING] -> [4. ACP] -> [5. NAT] -> [6. VPN] -> [7. EGRESS]
+👉 [1. INGRESS] -> [2. DEFRAG] -> [3. VPN DECRYPT] -> [4. UN-NAT] -> [5. ROUTING] -> [6. PREFILTER / ACP / SNORT] -> [7. NAT] -> [8. VPN ENCRYPT] -> [9. EGRESS]
 </pre>
 
 1.  **Ingress (The Entrance):** Which cable/zone did you come from?
